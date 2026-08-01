@@ -30,7 +30,7 @@ final class TmmsMigrationServiceTest extends TestCase
         self::assertSame('text', $this->invokeMapType($service, 'text'));
         self::assertSame('select', $this->invokeMapType($service, 'select'));
         self::assertSame('number', $this->invokeMapType($service, 'number'));
-        self::assertSame([], $logger->records, 'Bekannte TMMS-Fieldtypes duerfen kein Warning auslösen.');
+        self::assertSame([], $logger->records, 'Bekannte TMMS-Fieldtypes dürfen kein Warning auslösen.');
     }
 
     public function testMapTypeWarnsOnUnknownType(): void

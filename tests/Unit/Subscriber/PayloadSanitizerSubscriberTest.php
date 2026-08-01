@@ -127,7 +127,7 @@ final class PayloadSanitizerSubscriberTest extends TestCase
 
         $this->subscriber->sanitizePayload($event);
 
-        // Kein Crash, keine Aenderung.
+        // Kein Crash, keine Änderung.
         self::assertSame([], $event->getRequest()->request->all('lineItems'));
     }
 

@@ -1,7 +1,7 @@
 // Verhaltenstest für die ID-Hoheit: Der Payload-Marker `rcCustomFieldsActive` und das
 // DOM-Attribut `data-rc-id-controller` hängen an der Befüllung der Custom Fields, nicht am blossen
 // Vorhandensein des Plugins. Nur der WECHSEL der Hoheit löst ein Suffix-Event aus (Self-Loop-Guard).
-// Geprüft wird ausschliesslich beobachtbares Verhalten über _updateLineItemId, nie ein interner
+// Geprüft wird ausschließlich beobachtbares Verhalten über _updateLineItemId, nie ein interner
 // Methodenaufruf. Zero-Dependency: Node-Standardbibliothek (node:test).
 
 import { describe, test } from 'node:test';

@@ -21,7 +21,7 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
  * Bestellung. Dieser Validator prüft je Produkt-Line-Item die aktiven Pflichtfelder gegen die Eingabe und
  * blockiert Warenkorb/Checkout mit einem Fehler pro leerem Pflichtfeld.
  *
- * Datenquelle ist ausschliesslich das Line-Item-Payload — der Core legt die Produkt-Custom-Fields dort unter
+ * Datenquelle ist ausschließlich das Line-Item-Payload — der Core legt die Produkt-Custom-Fields dort unter
  * `customFields` ab (ProductCartProcessor), die Kundeneingabe steht als `rcCustomField{i}Value` daneben. Damit
  * ist keine zusätzliche DB-Abfrage im Cart-Recalculate-Pfad nötig.
  *

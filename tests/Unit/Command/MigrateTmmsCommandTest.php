@@ -113,6 +113,6 @@ final class MigrateTmmsCommandTest extends TestCase
         $exitCode = $tester->execute(['--dry-run' => true, '--rollback' => true]);
 
         self::assertSame(1, $exitCode);
-        self::assertStringContainsString('duerfen nicht kombiniert werden', $tester->getDisplay());
+        self::assertStringContainsString('dürfen nicht kombiniert werden', $tester->getDisplay());
     }
 }

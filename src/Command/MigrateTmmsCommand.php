@@ -40,7 +40,7 @@ class MigrateTmmsCommand extends Command
         $isRollback = (bool) $input->getOption('rollback');
 
         if ($isDryRun && $isRollback) {
-            $output->writeln('<error>--dry-run und --rollback duerfen nicht kombiniert werden.</error>');
+            $output->writeln('<error>--dry-run und --rollback dürfen nicht kombiniert werden.</error>');
 
             return Command::FAILURE;
         }
@@ -69,7 +69,7 @@ class MigrateTmmsCommand extends Command
         foreach ($candidates as $c) {
             $output->writeln(sprintf('  - %s (%s): %d TMMS-Feld(er)', $c['productNumber'], $c['productId'], $c['fieldCount']));
         }
-        $output->writeln('<info>Keine Aenderungen geschrieben. Lauf ohne --dry-run wiederholen, um zu migrieren.</info>');
+        $output->writeln('<info>Keine Änderungen geschrieben. Lauf ohne --dry-run wiederholen, um zu migrieren.</info>');
 
         return Command::SUCCESS;
     }

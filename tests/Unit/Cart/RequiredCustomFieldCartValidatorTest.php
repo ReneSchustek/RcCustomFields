@@ -169,7 +169,7 @@ class RequiredCustomFieldCartValidatorTest extends TestCase
         $errors = new ErrorCollection();
         $this->validator->validate($cart, $errors, $this->context);
 
-        // Zwei distinkte Fehler (eindeutige getId je Feld) — kein Ueberschreiben in der Collection.
+        // Zwei distinkte Fehler (eindeutige getId je Feld) — kein Überschreiben in der Collection.
         self::assertCount(2, $errors);
     }
 

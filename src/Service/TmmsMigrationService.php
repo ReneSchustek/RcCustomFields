@@ -58,7 +58,7 @@ class TmmsMigrationService
     public const TMMS_KEY_SELECTFIELDVALUES = 'selectfieldvalues';
     public const RC_MIGRATED_MARKER = 'rc_custom_fields_migrated_from_tmms';
 
-    /** Batch-Größe für die katalogweite Iteration — verhindert OOM/Timeout bei grossen Katalogen. */
+    /** Batch-Größe für die katalogweite Iteration — verhindert OOM/Timeout bei großen Katalogen. */
     private const BATCH_SIZE = 100;
 
     /** @var array<string, string> Mapping TMMS-Field-Type → RcCustomFields-Type */

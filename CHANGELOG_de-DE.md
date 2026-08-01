@@ -114,13 +114,13 @@ Alle Gates waren beim fehlerhaften Stand grün: PHPStan Level 8, PHP CS Fixer, P
 
 ## [1.4.0] - 2026-05-12
 
-> **Deployment:** `composer install && php bin/console plugin:update RcCustomFields && bin/build-administration.sh && php bin/console cache:clear`. Plugin-Update legt die 5 zusaetzlichen Custom-Felder per Upsert idempotent an.
+> **Deployment:** `composer install && php bin/console plugin:update RcCustomFields && bin/build-administration.sh && php bin/console cache:clear`. Plugin-Update legt die 5 zusätzlichen Custom-Felder per Upsert idempotent an.
 
 ### Hinzugefügt
 - **Vue-Admin-Modul `rc-cf-product-tab`** als neuer Tab "Kundeneingaben" in der Produkt-Detailansicht (`sw.product.detail`). Greift per Twig-Override auf `sw_product_detail_content_tabs` und registriert eine neue Route `sw.product.detail.rc-custom-fields`.
 - **Konfigurierbar pro Feld:** Aktiv-Toggle, Label, Typ (text/number/textarea/date/time/datetime/checkbox/select), Required, Placeholder, Einheit, Min/Max (für number+date+time+datetime), Optionen (für select). Konditionales Rendering — Min/Max nur bei Typen mit Range-Semantik, Options nur bei Select.
 - **Live-Vorschau-Karte** listet alle aktiven Felder mit Label + Typ + Required-Marker.
-- **FIELD_COUNT auf 10 erhöht** (vorher 5). PHP-Konstante `RcCustomFields::FIELD_COUNT`. Twig-Templates (Buy-Widget + Line-Item-Storefront) iterieren jetzt `1..10`. PayloadConverter, OrderLineItemWrittenSubscriber, TmmsMigrationService sind FIELD_COUNT-gerecht geschrieben — keine Code-Aenderung dort nötig.
+- **FIELD_COUNT auf 10 erhöht** (vorher 5). PHP-Konstante `RcCustomFields::FIELD_COUNT`. Twig-Templates (Buy-Widget + Line-Item-Storefront) iterieren jetzt `1..10`. PayloadConverter, OrderLineItemWrittenSubscriber, TmmsMigrationService sind FIELD_COUNT-gerecht geschrieben — keine Code-Änderung dort nötig.
 - **Snippets DE/EN** vollständig (Tab-Titel, Field-Editor, Vorschau, Type-Labels).
 
 ### Datenspeicherung
@@ -128,7 +128,7 @@ Alle Gates waren beim fehlerhaften Stand grün: PHPStan Level 8, PHP CS Fixer, P
 
 ### Bewusste Einschränkungen (verschoben auf v1.5.0+)
 - **Drag-and-Drop-Reihenfolge:** Felder werden in fester Reihenfolge 1..10 angezeigt. Reihenfolge-Manipulation würde eigene Persistenz-Schicht erfordern.
-- **Cart-Edit-UI** (Aenderung der Werte im Warenkorb) bleibt offen.
+- **Cart-Edit-UI** (Änderung der Werte im Warenkorb) bleibt offen.
 
 ## [1.3.0] - 2026-05-12
 
@@ -168,7 +168,7 @@ Damit kann **Phase 2.3 vollzogen werden**:
 
 ### Bewusste Einschränkungen (verschoben auf v1.4.0)
 
-- **Cart-Edit-UI:** Aenderung der Werte im Offcanvas-/Cart-Page ist noch nicht implementiert (Frontend-JS-Eingriff). Eingaben sind aktuell read-only nach AddToCart.
+- **Cart-Edit-UI:** Änderung der Werte im Offcanvas-/Cart-Page ist noch nicht implementiert (Frontend-JS-Eingriff). Eingaben sind aktuell read-only nach AddToCart.
 - **Admin-Bestellübersicht-Erweiterung:** Die `order_line_item.custom_fields`-Werte sind über den Custom-Field-Standard-Mechanismus im Admin sichtbar; ein eigenes Vue-Modul für prominente Anzeige steht aus.
 
 ## [1.2.0] - 2026-05-11
