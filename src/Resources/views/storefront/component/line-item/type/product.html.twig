@@ -1,0 +1,53 @@
+{% sw_extends '@Storefront/storefront/component/line-item/type/product.html.twig' %}
+
+{#
+  Zeigt die Kundeneingaben unterhalb des Produktnamens im Warenkorb.
+  Gilt für: Warenkorb, Offcanvas-Cart, Checkout-Bestätigung, Bestellhistorie.
+#}
+{% block component_line_item_type_product_details_container %}
+    {{ parent() }}
+
+    {# Dieses Template rendert in ZWEI Kontexten:
+       - Live-Warenkorb / Offcanvas / Checkout-Bestaetigung: die Eingaben liegen im flachen Cart-Payload
+         (`rcCustomField{i}Value`); `lineItem.customFields` traegt noch keinen Snapshot.
+       - Konto -> Bestelldetail (Bestellhistorie): der OrderLineItem traegt den persistierten
+         `rc_custom_fields`-Snapshot in `lineItem.customFields`.
+       Frueher las dieser Block AUSSCHLIESSLICH den Payload-Pfad -> Alt-TMMS-Bestellungen (Daten nur in
+       customFields, ohne `rcCustomFieldsActive`) erschienen im PDF (Reader-Pfad), aber NICHT im Bestelldetail.
+       Deshalb jetzt Reader-first (deckt Order-Kontext inkl. Alt-TMMS ab, exakt wie documents/base.html.twig),
+       Payload nur noch als Live-Cart-Fallback. #}
+    {% set rcCfEntries = rc_cf_entries(lineItem.customFields) %}
+
+    {% if config('RcCustomFields.config.showInOrderHistory') and rcCfEntries is not empty %}
+        {% block rc_custom_fields_order_entries %}
+            <ul class="rc-cf-cart-values list-unstyled mb-0 mt-1">
+                {% for entry in rcCfEntries %}
+                    <li class="rc-cf-cart-item small text-muted">
+                        {% if entry.label is not empty %}
+                            <strong>{{ entry.label|e('html') }}:</strong>
+                        {% endif %}
+                        {{ entry.value|e('html') }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endblock %}
+    {% elseif config('RcCustomFields.config.showInCart') and lineItem.payload.rcCustomFieldsActive is defined %}
+        {% set payload = lineItem.payload %}
+
+        <ul class="rc-cf-cart-values list-unstyled mb-0 mt-1">
+            {% for i in 1..10 %}
+                {% set valueKey = 'rcCustomField' ~ i ~ 'Value' %}
+                {% set labelKey = 'rcCustomField' ~ i ~ 'Label' %}
+
+                {% if payload[valueKey] is defined and payload[valueKey] is not empty %}
+                    <li class="rc-cf-cart-item small text-muted">
+                        {% if payload[labelKey] is defined and payload[labelKey] is not empty %}
+                            <strong>{{ payload[labelKey]|e('html') }}:</strong>
+                        {% endif %}
+                        {{ payload[valueKey]|e('html') }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

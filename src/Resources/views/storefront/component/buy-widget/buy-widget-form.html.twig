@@ -1,0 +1,12 @@
+{% sw_extends '@Storefront/storefront/component/buy-widget/buy-widget-form.html.twig' %}
+
+{#
+  Wir erweitern den Button-Container-Block, um unsere Custom Fields
+  DIREKT VOR dem Kaufen-Button einzufügen – als Teil des buy-Forms.
+  Kein separates Form, kein form=-Attribut. Damit lösen wir die FormData-Problematik
+  die TmmsProductCustomerInputs in Shopware 6.7 gebrochen hat.
+#}
+{% block buy_widget_buy_button_container %}
+    {% sw_include '@RcCustomFields/storefront/component/buy-widget/rc-custom-fields-inputs.html.twig' %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,145 @@
+{#
+  Rendert die Kundeneingabe-Felder INNERHALB des Buy-Forms.
+  Alle Inputs sind physisch in productDetailPageBuyProductForm – kein form=-Attribut-Trick.
+  Das JS-Plugin überwacht Änderungen und aktualisiert lineItems[id][id] mit einem
+  deterministischen Hash, damit unterschiedliche Eingaben separate Warenkorbpositionen erzeugen.
+
+  Unterstützte Feldtypen (Auswahl im Admin per rc_custom_field_{i}_type):
+  text, number, textarea, date, time, datetime, checkbox, select.
+#}
+
+{% set cf = page.product.translated.customFields %}
+{% set productId = product.id %}
+
+{% if cf['rc_custom_fields_enabled'] %}
+    {# `data-rc-id-controller` setzt das JS, sobald ein Feld befüllt ist. Ohne Eingaben übt das
+       Plugin keine ID-Hoheit aus und darf sie auch nicht behaupten — sonst treten Sibling-Plugins
+       unnötig zurück und ihre eigenen Funktionen (z. B. Auto-Split) fallen aus. #}
+    <div class="rc-custom-fields-wrapper col-12"
+         data-rc-custom-fields="true"
+         data-product-id="{{ productId }}"
+         data-stack-same-values="{{ config('RcCustomFields.config.stackSameValues') ? '1' : '0' }}">
+
+        {% for i in 1..10 %}
+            {% set isActive   = 'rc_custom_field_' ~ i ~ '_active' %}
+            {% set cfLabel    = 'rc_custom_field_' ~ i ~ '_label' %}
+            {% set cfType     = 'rc_custom_field_' ~ i ~ '_type' %}
+            {% set cfRequired = 'rc_custom_field_' ~ i ~ '_required' %}
+            {% set cfHolder   = 'rc_custom_field_' ~ i ~ '_placeholder' %}
+            {% set cfUnit     = 'rc_custom_field_' ~ i ~ '_unit' %}
+            {% set cfMin      = 'rc_custom_field_' ~ i ~ '_min' %}
+            {% set cfMax      = 'rc_custom_field_' ~ i ~ '_max' %}
+            {% set cfOptions  = 'rc_custom_field_' ~ i ~ '_options' %}
+
+            {% if cf[isActive] %}
+                {% set fieldType   = cf[cfType] ?: 'text' %}
+                {% set required    = cf[cfRequired] %}
+                {% set label       = cf[cfLabel] ?: ('rcCustomFields.field.defaultLabel' | trans) %}
+                {% set holder      = cf[cfHolder] ?: '' %}
+                {% set unit        = cf[cfUnit] ?: '' %}
+                {% set inputName   = 'lineItems[' ~ productId ~ '][payload][rcCustomField' ~ i ~ 'Value]' %}
+                {% set inputId     = 'rc-cf-' ~ productId ~ '-' ~ i %}
+                {% set errorAttrs  = required ? ('required data-error-msg="' ~ ('rcCustomFields.validation.required'|trans|e('html_attr')) ~ '"') : '' %}
+
+                <div class="rc-cf-group mb-2">
+                    {% if fieldType != 'checkbox' %}
+                        <label class="form-label rc-cf-label{% if required %} required{% endif %}"
+                               for="{{ inputId }}">
+                            {{ label }}{% if unit %} <span class="rc-cf-unit text-muted">({{ unit }})</span>{% endif %}
+                            {% if required %}<span class="required-marker" aria-hidden="true"> *</span>{% endif %}
+                        </label>
+                    {% endif %}
+
+                    {% if fieldType == 'textarea' %}
+                        <textarea
+                            id="{{ inputId }}"
+                            class="form-control rc-cf-input{% if required %} rc-cf-required{% endif %}"
+                            name="{{ inputName }}"
+                            placeholder="{{ holder|e('html_attr') }}"
+                            rows="3"
+                            maxlength="1000"
+                            data-field-key="f{{ i }}"
+                            {{ errorAttrs|raw }}
+                        ></textarea>
+                    {% elseif fieldType == 'select' %}
+                        {% set rawOptions = cf[cfOptions] ?: '' %}
+                        <select
+                            id="{{ inputId }}"
+                            class="form-select rc-cf-input{% if required %} rc-cf-required{% endif %}"
+                            name="{{ inputName }}"
+                            data-field-key="f{{ i }}"
+                            {{ errorAttrs|raw }}>
+                            <option value="">{{ holder ?: ('rcCustomFields.select.placeholder'|trans) }}</option>
+                            {% for line in rawOptions|split('\n') %}
+                                {% set trimmed = line|trim %}
+                                {% if trimmed != '' %}
+                                    {% set parts = trimmed|split('|', 2) %}
+                                    {% set value = parts[0]|trim %}
+                                    {% set text  = parts[1] is defined ? parts[1]|trim : value %}
+                                    <option value="{{ value|e('html_attr') }}">{{ text }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    {% elseif fieldType == 'checkbox' %}
+                        <div class="form-check">
+                            <input
+                                id="{{ inputId }}"
+                                type="checkbox"
+                                class="form-check-input rc-cf-input{% if required %} rc-cf-required{% endif %}"
+                                name="{{ inputName }}"
+                                value="1"
+                                data-field-key="f{{ i }}"
+                                {{ errorAttrs|raw }}>
+                            <label class="form-check-label{% if required %} required{% endif %}" for="{{ inputId }}">
+                                {{ label }}{% if unit %} <span class="rc-cf-unit text-muted">({{ unit }})</span>{% endif %}
+                                {% if required %}<span class="required-marker" aria-hidden="true"> *</span>{% endif %}
+                            </label>
+                        </div>
+                    {% elseif fieldType in ['date', 'time', 'datetime'] %}
+                        {# HTML5-Input-Typen: date, time, datetime-local. Browser-native Validierung + Picker. #}
+                        <input
+                            id="{{ inputId }}"
+                            type="{{ fieldType == 'datetime' ? 'datetime-local' : fieldType }}"
+                            class="form-control rc-cf-input{% if required %} rc-cf-required{% endif %}"
+                            name="{{ inputName }}"
+                            placeholder="{{ holder|e('html_attr') }}"
+                            data-field-key="f{{ i }}"
+                            {{ errorAttrs|raw }}
+                            {% if cf[cfMin] is not empty %}min="{{ cf[cfMin] }}"{% endif %}
+                            {% if cf[cfMax] is not empty %}max="{{ cf[cfMax] }}"{% endif %}
+                        />
+                    {% else %}
+                        <input
+                            id="{{ inputId }}"
+                            type="{{ fieldType == 'number' ? 'number' : 'text' }}"
+                            class="form-control rc-cf-input{% if required %} rc-cf-required{% endif %}"
+                            name="{{ inputName }}"
+                            placeholder="{{ holder|e('html_attr') }}"
+                            data-field-key="f{{ i }}"
+                            {{ errorAttrs|raw }}
+                            {% if fieldType == 'number' %}
+                                {% if cf[cfMin] is not empty %}min="{{ cf[cfMin] }}"{% endif %}
+                                {% if cf[cfMax] is not empty %}max="{{ cf[cfMax] }}"{% endif %}
+                                step="any"
+                            {% else %}
+                                maxlength="1000"
+                            {% endif %}
+                        />
+                    {% endif %}
+
+                    {# Label und Einheit als Hidden-Felder damit sie im Warenkorb-Payload landen #}
+                    <input type="hidden"
+                           name="lineItems[{{ productId }}][payload][rcCustomField{{ i }}Label]"
+                           value="{{ label|e('html_attr') }}{% if unit %} ({{ unit|e('html_attr') }}){% endif %}">
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {# ID-Hoheit dieses Plugins für die Position. Das JS setzt '1', sobald ein Feld befüllt ist.
+           Die Eingaben selbst hängen nicht daran — sie tragen eigene name-Attribute. #}
+        <input type="hidden"
+               name="lineItems[{{ productId }}][payload][rcCustomFieldsActive]"
+               data-rc-cf-active-marker
+               value="">
+    </div>
+{% endif %}

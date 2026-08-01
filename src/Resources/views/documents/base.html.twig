@@ -1,0 +1,45 @@
+{% sw_extends '@Framework/documents/base.html.twig' %}
+
+{# Erweitert die generische Dokumenten-Basis um die Anzeige der RcCustomFields
+   pro Bestellposition. Wirkt fuer alle Dokumente (Rechnung, Lieferschein, Storno,
+   Gutschrift), die `base.html.twig` erweitern.
+
+   Blockname mit Bedacht gewaehlt -- hier lagen zwei Fallen:
+
+   1. Einzahl `line_item`, nicht `line_items`. Der zuvor genutzte Block
+      `document_line_items_table_row_label` existiert in Shopware NICHT. Twig ignoriert
+      einen Override auf einen unbekannten Block stillschweigend: kein Fehler, keine
+      Warnung, kein Testausfall -- die Kundeneingaben erschienen schlicht auf keinem
+      einzigen Dokument.
+
+   2. `column` statt `row`. `document_line_item_table_row_label` IST das <td> selbst;
+      ein Anhang nach {{ parent() }} laege dort AUSSERHALB der Tabellenzelle. Der
+      Column-Block liegt INNERHALB des <td> und haengt den Zusatz korrekt unter den
+      Positionsnamen.
+
+   Der Block stammt aus `documents/includes/position.html.twig` und wird per `{% use %}`
+   in `documents/base.html.twig` importiert -- deshalb ist er von hier aus ueberschreibbar. #}
+
+{% block document_line_item_table_column_label %}
+    {{ parent() }}
+
+    {# Defensiver Dual-Schema-Read: rc_cf_entries liefert die Eintraege sowohl aus dem
+       eigenen rc_custom_fields-Array als auch aus dem flachen TMMS-Snapshot alter
+       Bestellungen. So rendern Bestellungen von vor dem TMMS-Cutover unveraendert
+       weiter, ohne dass TMMS installiert sein muss. #}
+    {% set rcCfEntries = rc_cf_entries(lineItem.customFields) %}
+    {% if rcCfEntries is not empty %}
+        {% block rc_custom_fields_document_entries %}
+            <div class="rc-custom-fields-document-entries" style="font-size: 0.85em; margin-top: 2px;">
+                {% for entry in rcCfEntries %}
+                    <div class="rc-cf-entry">
+                        {% if entry.label is not empty %}
+                            <strong>{{ entry.label }}:</strong>
+                        {% endif %}
+                        {{ entry.value }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endblock %}
+    {% endif %}
+{% endblock %}

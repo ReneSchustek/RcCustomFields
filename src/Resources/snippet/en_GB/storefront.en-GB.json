@@ -1,0 +1,17 @@
+{
+    "rcCustomFields": {
+        "field": {
+            "defaultLabel": "Your input",
+            "required": "Required"
+        },
+        "validation": {
+            "required": "Please fill in this field."
+        },
+        "select": {
+            "placeholder": "Please select"
+        }
+    },
+    "error": {
+        "rcCustomFieldsRequiredFieldMissing": "Please fill in the required field \"%name%\"."
+    }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>RC Custom Fields – Einstellungen</title>
+        <title lang="en-GB">RC Custom Fields – Settings</title>
+
+        <input-field type="bool">
+            <name>showInCart</name>
+            <defaultValue>true</defaultValue>
+            <label>Eingaben im Warenkorb anzeigen</label>
+            <label lang="en-GB">Show inputs in cart</label>
+            <helpText>Kundeneingaben unterhalb des Produktnamens im Warenkorb anzeigen</helpText>
+            <helpText lang="en-GB">Show customer inputs below the product name in the cart</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>showInOrderHistory</name>
+            <defaultValue>true</defaultValue>
+            <label>Eingaben in der Bestellhistorie anzeigen</label>
+            <label lang="en-GB">Show inputs in order history</label>
+        </input-field>
+
+        <input-field type="bool">
+            <name>stackSameValues</name>
+            <defaultValue>true</defaultValue>
+            <label>Gleiche Eingaben stapeln (Menge erhöhen)</label>
+            <label lang="en-GB">Stack identical inputs (increase quantity)</label>
+            <helpText>Wenn aktiv: Identische Eingaben erhöhen die Menge. Wenn inaktiv: Jede Eingabe erzeugt immer eine neue Position.</helpText>
+            <helpText lang="en-GB">When active: identical inputs increase quantity. When inactive: every input always creates a new line item.</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>requireAllFieldsBeforeCart</name>
+            <defaultValue>false</defaultValue>
+            <label>Pflichtfelder vor "In den Warenkorb" erzwingen</label>
+            <label lang="en-GB">Enforce required fields before adding to cart</label>
+            <helpText>Wenn aktiv: "In den Warenkorb" ist blockiert bis alle Pflichtfelder ausgefüllt sind</helpText>
+            <helpText lang="en-GB">When active: the buy button is blocked until all required fields are filled</helpText>
+        </input-field>
+    </card>
+</config>

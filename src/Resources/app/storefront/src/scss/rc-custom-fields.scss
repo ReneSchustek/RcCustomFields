@@ -1,0 +1,39 @@
+.rc-custom-fields-wrapper {
+    .rc-cf-group {
+        .rc-cf-label {
+            font-weight: 500;
+
+            &.required .required-marker {
+                color: var(--bs-danger, #dc3545);
+            }
+
+            .rc-cf-unit {
+                font-size: 0.875em;
+                font-weight: 400;
+            }
+        }
+
+        .rc-cf-input {
+            &.is-invalid {
+                border-color: var(--bs-danger, #dc3545);
+            }
+
+            .invalid-feedback {
+                display: block;
+            }
+        }
+    }
+}
+
+.rc-cf-cart-values {
+    .rc-cf-cart-item {
+        font-size: 0.85em;
+        line-height: 1.4;
+
+        &::before {
+            content: '›';
+            margin-right: 4px;
+            opacity: 0.6;
+        }
+    }
+}

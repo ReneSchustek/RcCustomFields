@@ -1,0 +1,39 @@
+{
+  "rcCustomFields": {
+    "productTab": {
+      "title": "Customer inputs",
+      "intro": "Configure up to 10 input fields per product. Different inputs create separate cart line items.",
+      "enabled": {
+        "label": "Enable customer inputs for this product",
+        "helpText": "When enabled: fields are rendered on the product detail page."
+      },
+      "field": {
+        "title": "Field {index}",
+        "active": "Active",
+        "label": "Label",
+        "type": "Type",
+        "required": "Required",
+        "placeholder": "Placeholder",
+        "unit": "Unit",
+        "min": "Minimum",
+        "max": "Maximum",
+        "options": "Options (Select)",
+        "optionsHelp": "One option per line. Format: value|label, e.g. small|Small"
+      },
+      "type": {
+        "text": "Text",
+        "number": "Number",
+        "textarea": "Multi-line text",
+        "date": "Date",
+        "time": "Time",
+        "datetime": "Date and time",
+        "checkbox": "Checkbox",
+        "select": "Select"
+      },
+      "preview": {
+        "title": "Preview",
+        "noActiveFields": "No active fields. Activate at least one field to see the preview."
+      }
+    }
+  }
+}

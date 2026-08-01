@@ -1,0 +1,107 @@
+{% block rc_cf_product_tab %}
+    <sw-card class="rc-cf-product-tab" :title="$tc('rcCustomFields.productTab.title')" :isLoading="isLoading">
+        <template v-if="product">
+            <p class="rc-cf-intro">{{ $tc('rcCustomFields.productTab.intro') }}</p>
+
+            {% block rc_cf_product_tab_enabled %}
+                <sw-field
+                    type="switch"
+                    :label="$tc('rcCustomFields.productTab.enabled.label')"
+                    :helpText="$tc('rcCustomFields.productTab.enabled.helpText')"
+                    :value="isEnabled()"
+                    @change="setEnabled($event)">
+                </sw-field>
+            {% endblock %}
+
+            {% block rc_cf_product_tab_fields %}
+                <div v-if="isEnabled()" class="rc-cf-fields">
+                    <div v-for="i in fieldIndices" :key="i" class="rc-cf-field-card">
+                        <h4>{{ $tc('rcCustomFields.productTab.field.title', 0, { index: i }) }}</h4>
+
+                        <sw-field
+                            type="switch"
+                            :label="$tc('rcCustomFields.productTab.field.active')"
+                            :value="!!getCustomField(i + '_active')"
+                            @change="setCustomField(i + '_active', $event)">
+                        </sw-field>
+
+                        <sw-text-field
+                            :label="$tc('rcCustomFields.productTab.field.label')"
+                            :value="getCustomField(i + '_label') || ''"
+                            @input="setCustomField(i + '_label', $event)">
+                        </sw-text-field>
+
+                        <sw-single-select
+                            :label="$tc('rcCustomFields.productTab.field.type')"
+                            :options="fieldTypes"
+                            :value="getCustomField(i + '_type') || 'text'"
+                            @change="setCustomField(i + '_type', $event)">
+                        </sw-single-select>
+
+                        <sw-field
+                            type="switch"
+                            :label="$tc('rcCustomFields.productTab.field.required')"
+                            :value="!!getCustomField(i + '_required')"
+                            @change="setCustomField(i + '_required', $event)">
+                        </sw-field>
+
+                        <sw-text-field
+                            :label="$tc('rcCustomFields.productTab.field.placeholder')"
+                            :value="getCustomField(i + '_placeholder') || ''"
+                            @input="setCustomField(i + '_placeholder', $event)">
+                        </sw-text-field>
+
+                        <sw-text-field
+                            :label="$tc('rcCustomFields.productTab.field.unit')"
+                            :value="getCustomField(i + '_unit') || ''"
+                            @input="setCustomField(i + '_unit', $event)">
+                        </sw-text-field>
+
+                        <sw-text-field
+                            v-if="getCustomField(i + '_type') === 'number' || getCustomField(i + '_type') === 'date' || getCustomField(i + '_type') === 'time' || getCustomField(i + '_type') === 'datetime'"
+                            :label="$tc('rcCustomFields.productTab.field.min')"
+                            :value="getCustomField(i + '_min') || ''"
+                            @input="setCustomField(i + '_min', $event)">
+                        </sw-text-field>
+
+                        <sw-text-field
+                            v-if="getCustomField(i + '_type') === 'number' || getCustomField(i + '_type') === 'date' || getCustomField(i + '_type') === 'time' || getCustomField(i + '_type') === 'datetime'"
+                            :label="$tc('rcCustomFields.productTab.field.max')"
+                            :value="getCustomField(i + '_max') || ''"
+                            @input="setCustomField(i + '_max', $event)">
+                        </sw-text-field>
+
+                        <sw-textarea-field
+                            v-if="getCustomField(i + '_type') === 'select'"
+                            :label="$tc('rcCustomFields.productTab.field.options')"
+                            :helpText="$tc('rcCustomFields.productTab.field.optionsHelp')"
+                            :value="getCustomField(i + '_options') || ''"
+                            @input="setCustomField(i + '_options', $event)">
+                        </sw-textarea-field>
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block rc_cf_product_tab_preview %}
+                <sw-card v-if="isEnabled()" :title="$tc('rcCustomFields.productTab.preview.title')" class="rc-cf-preview">
+                    <div v-if="activeFieldsForPreview.length === 0" class="rc-cf-preview-empty">
+                        {{ $tc('rcCustomFields.productTab.preview.noActiveFields') }}
+                    </div>
+                    <ul v-else>
+                        <li v-for="f in activeFieldsForPreview" :key="f.index">
+                            <strong>{{ f.label }}</strong>
+                            <span>({{ f.type }})</span>
+                            <span v-if="f.required" class="text-danger">*</span>
+                        </li>
+                    </ul>
+                </sw-card>
+            {% endblock %}
+
+            {% block rc_cf_product_tab_save %}
+                <sw-button-process variant="primary" :isLoading="isSaving" @click="onSave">
+                    {{ $tc('global.default.save') }}
+                </sw-button-process>
+            {% endblock %}
+        </template>
+    </sw-card>
+{% endblock %}

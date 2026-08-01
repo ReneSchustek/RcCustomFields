@@ -1,0 +1,17 @@
+{
+    "rcCustomFields": {
+        "field": {
+            "defaultLabel": "Ihre Angabe",
+            "required": "Pflichtfeld"
+        },
+        "validation": {
+            "required": "Bitte füllen Sie dieses Feld aus."
+        },
+        "select": {
+            "placeholder": "Bitte auswählen"
+        }
+    },
+    "error": {
+        "rcCustomFieldsRequiredFieldMissing": "Bitte füllen Sie das Pflichtfeld „%name%“ aus."
+    }
+}

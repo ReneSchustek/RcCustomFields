@@ -1,0 +1,39 @@
+{
+  "rcCustomFields": {
+    "productTab": {
+      "title": "Kundeneingaben",
+      "intro": "Konfiguriere bis zu 10 Eingabefelder pro Produkt. Unterschiedliche Eingaben erzeugen separate Warenkorbpositionen.",
+      "enabled": {
+        "label": "Kundeneingaben fuer dieses Produkt aktivieren",
+        "helpText": "Wenn aktiviert: Felder werden auf der Produktdetailseite gerendert."
+      },
+      "field": {
+        "title": "Feld {index}",
+        "active": "Aktiv",
+        "label": "Bezeichnung",
+        "type": "Typ",
+        "required": "Pflichtfeld",
+        "placeholder": "Platzhalter",
+        "unit": "Einheit",
+        "min": "Minimum",
+        "max": "Maximum",
+        "options": "Optionen (Select)",
+        "optionsHelp": "Eine Option pro Zeile. Format: value|label, z.B. klein|Klein"
+      },
+      "type": {
+        "text": "Text",
+        "number": "Zahl",
+        "textarea": "Mehrzeiliger Text",
+        "date": "Datum",
+        "time": "Uhrzeit",
+        "datetime": "Datum und Uhrzeit",
+        "checkbox": "Checkbox",
+        "select": "Auswahl"
+      },
+      "preview": {
+        "title": "Vorschau",
+        "noActiveFields": "Keine aktiven Felder. Schalte mindestens ein Feld auf Aktiv, um die Vorschau zu sehen."
+      }
+    }
+  }
+}

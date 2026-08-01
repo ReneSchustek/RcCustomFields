@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldInstaller" public="true">
+            <argument type="service" id="custom_field_set.repository"/>
+            <argument type="service" id="custom_field.repository"/>
+            <argument type="service" id="logger" on-invalid="null"/>
+        </service>
+
+        <service id="Ruhrcoder\RcCustomFields\Service\PayloadConverter"/>
+
+        <!-- Defensiver Dual-Schema-Reader (rc_custom_fields + TMMS-Snapshot). Public für Unit-Tests. -->
+        <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldsReader" public="true"/>
+
+        <!-- Twig-Helper für Mail/Dokument/Storefront, delegiert auf den Reader. -->
+        <service id="Ruhrcoder\RcCustomFields\Twig\CustomFieldsTwigExtension">
+            <argument type="service" id="Ruhrcoder\RcCustomFields\Service\CustomFieldsReader"/>
+            <tag name="twig.extension"/>
+        </service>
+
+        <service id="Ruhrcoder\RcCustomFields\Subscriber\PayloadSanitizerSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <!-- Serverseitige Pflichtfeld-Durchsetzung (Opt-in via requireAllFieldsBeforeCart). -->
+        <service id="Ruhrcoder\RcCustomFields\Cart\RequiredCustomFieldCartValidator">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <tag name="shopware.cart.validator"/>
+        </service>
+
+        <service id="Ruhrcoder\RcCustomFields\Subscriber\OrderLineItemWrittenSubscriber">
+            <argument type="service" id="Ruhrcoder\RcCustomFields\Service\PayloadConverter"/>
+            <argument type="service" id="logger" on-invalid="null"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="Ruhrcoder\RcCustomFields\Service\TmmsMigrationService">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="product.repository"/>
+            <argument type="service" id="logger" on-invalid="null"/>
+        </service>
+
+        <service id="Ruhrcoder\RcCustomFields\Command\MigrateTmmsCommand">
+            <argument type="service" id="Ruhrcoder\RcCustomFields\Service\TmmsMigrationService"/>
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>
