@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Pinning-Tests gegen das rc-custom-fields-inputs.html.twig — sichert, dass alle
  * deklarierten Feldtypen (text, number, textarea, date, time, datetime, checkbox, select)
- * im Storefront tatsaechlich gerendert werden. Drift im Template wird sofort rot.
+ * im Storefront tatsächlich gerendert werden. Drift im Template wird sofort rot.
  */
 final class TwigTemplateContractTest extends TestCase
 {
@@ -67,7 +67,7 @@ final class TwigTemplateContractTest extends TestCase
     public function testTemplateLeavesIdControllerToJavaScript(): void
     {
         // Ohne Eingaben uebt das Plugin keine ID-Hoheit aus. Das Twig behauptet sie daher nicht
-        // statisch — das JS setzt `data-rc-id-controller`, sobald ein Feld befuellt ist.
+        // statisch — das JS setzt `data-rc-id-controller`, sobald ein Feld befüllt ist.
         $template = self::template();
 
         self::assertStringNotContainsString('data-rc-id-controller="true"', $template);

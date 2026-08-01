@@ -10,7 +10,7 @@ Shopware.Module.register('rc-custom-fields-product-tab-route', {
     title: 'rcCustomFields.productTab.title',
 
     routeMiddleware(next, currentRoute) {
-        // Fuegt die neue Route nur an `sw.product.detail` an.
+        // Fügt die neue Route nur an `sw.product.detail` an.
         if (currentRoute.name === 'sw.product.detail') {
             currentRoute.children = currentRoute.children || [];
             const exists = currentRoute.children.some((c) => c.name === 'sw.product.detail.rc-custom-fields');

@@ -8,7 +8,7 @@ use Ruhrcoder\RcCustomFields\RcCustomFields;
 
 /**
  * Konvertiert RcCustomFields-Payload-Werte aus dem Cart-LineItem-Payload
- * in das fuer order_line_item.custom_fields-Persistierung benoetigte Format.
+ * in das für order_line_item.custom_fields-Persistierung benötigte Format.
  *
  * Cart-Payload-Schema:
  *   rcCustomFieldsActive = '1'
@@ -30,7 +30,7 @@ class PayloadConverter
     public const ORDER_LINE_ITEM_CUSTOM_FIELDS_KEY = 'rc_custom_fields';
 
     /**
-     * Extrahiert RcCustomFields-Eintraege aus einem LineItem-Payload-Array.
+     * Extrahiert RcCustomFields-Einträge aus einem LineItem-Payload-Array.
      *
      * @param array<string, mixed> $payload
      * @return list<array{index: int, label: string, value: string}>
@@ -64,7 +64,7 @@ class PayloadConverter
     }
 
     /**
-     * Baut das Custom-Fields-Array fuer Merge mit bestehenden order_line_item.custom_fields.
+     * Baut das Custom-Fields-Array für Merge mit bestehenden order_line_item.custom_fields.
      * Bestehende Custom-Fields aus anderen Plugins bleiben unangetastet — nur der eigene Key wird gesetzt.
      *
      * @param array<string, mixed> $existingCustomFields
@@ -74,7 +74,7 @@ class PayloadConverter
     public function mergeIntoCustomFields(array $existingCustomFields, array $entries): array
     {
         if ($entries === []) {
-            // Nichts zu schreiben — bestehende Custom-Fields unveraendert lassen.
+            // Nichts zu schreiben — bestehende Custom-Fields unverändert lassen.
             return $existingCustomFields;
         }
 

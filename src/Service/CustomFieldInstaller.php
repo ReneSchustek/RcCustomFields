@@ -172,7 +172,7 @@ final class CustomFieldInstaller
 
         $this->customFieldRepository->delete($toDelete, $context);
 
-        $this->logger->info('RcCustomFields: Type-Drift in CustomField-Definitionen aufgeloest.', [
+        $this->logger->info('RcCustomFields: Type-Drift in CustomField-Definitionen aufgelöst.', [
             'context' => self::LOG_CONTEXT,
             'droppedCount' => count($toDelete),
             'drift' => $drift,

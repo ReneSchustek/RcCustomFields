@@ -1,5 +1,5 @@
-// Vertrags- und Listener-Test fuer rc-custom-fields.plugin.js. Verankert die SUFFIX_CHANGED_EVENT-
-// Konstante und prueft, dass der generische Listener _updateLineItemId triggert.
+// Vertrags- und Listener-Test für rc-custom-fields.plugin.js. Verankert die SUFFIX_CHANGED_EVENT-
+// Konstante und prüft, dass der generische Listener _updateLineItemId triggert.
 // Zero-Dependency: Node-Standardbibliothek (node:test).
 
 import { describe, test } from 'node:test';
@@ -22,7 +22,7 @@ const sourcePath = join(
     'rc-custom-fields.plugin.js',
 );
 
-// CRLF -> LF normalisieren, damit die Strip-Regex unabhaengig von der Zeilenende-Konvention der
+// CRLF -> LF normalisieren, damit die Strip-Regex unabhängig von der Zeilenende-Konvention der
 // Working Copy greift (Windows-Checkout ist CRLF, das Docker-Gate LF).
 const rawSource = readFileSync(sourcePath, 'utf8').replace(/\r\n/g, '\n');
 // Plugin liest PluginBaseClass aus window — durch Stub-Klasse im Wrapper ersetzen.

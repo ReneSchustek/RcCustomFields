@@ -24,9 +24,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
  *   tmms_customer_input_{n}_placeholder        (string)
  *   tmms_customer_input_{n}_required           (bool)
  *   tmms_customer_input_{n}_unit               (string)
- *   tmms_customer_input_{n}_minvalue           (number, nur fuer fieldtype=number)
- *   tmms_customer_input_{n}_maxvalue           (number, nur fuer fieldtype=number)
- *   tmms_customer_input_{n}_selectfieldvalues  (string CSV, nur fuer fieldtype=select)
+ *   tmms_customer_input_{n}_minvalue           (number, nur für fieldtype=number)
+ *   tmms_customer_input_{n}_maxvalue           (number, nur für fieldtype=number)
+ *   tmms_customer_input_{n}_selectfieldvalues  (string CSV, nur für fieldtype=select)
  *
  * RcCustomFields-Schema (am Produkt):
  *   rc_custom_fields_enabled             (bool)
@@ -42,7 +42,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
  *
  * Idempotent: zweiter Lauf produziert keinen neuen Stand, weil read+write auf denselben
  * Custom-Field-Key zielt. `--dry-run` schreibt nicht. `--rollback` setzt `rc_custom_fields_enabled`
- * zurueck auf false fuer alle in dieser Migration markierten Produkte.
+ * zurück auf false für alle in dieser Migration markierten Produkte.
  */
 class TmmsMigrationService
 {
@@ -58,7 +58,7 @@ class TmmsMigrationService
     public const TMMS_KEY_SELECTFIELDVALUES = 'selectfieldvalues';
     public const RC_MIGRATED_MARKER = 'rc_custom_fields_migrated_from_tmms';
 
-    /** Batch-Groesse fuer die katalogweite Iteration — verhindert OOM/Timeout bei grossen Katalogen. */
+    /** Batch-Größe für die katalogweite Iteration — verhindert OOM/Timeout bei grossen Katalogen. */
     private const BATCH_SIZE = 100;
 
     /** @var array<string, string> Mapping TMMS-Field-Type → RcCustomFields-Type */
@@ -85,7 +85,7 @@ class TmmsMigrationService
     }
 
     /**
-     * Liefert eine Vorschau, was die Migration tun wuerde — ohne DB-Schreibung.
+     * Liefert eine Vorschau, was die Migration tun würde — ohne DB-Schreibung.
      * @return list<array{productId: string, productNumber: string, fieldCount: int}>
      */
     public function dryRun(Context $context): array
@@ -94,7 +94,7 @@ class TmmsMigrationService
     }
 
     /**
-     * Fuehrt die Migration aus. Pro Produkt eine DBAL-Transaktion.
+     * Führt die Migration aus. Pro Produkt eine DBAL-Transaktion.
      * @return array{processed: int, skipped: int, errors: list<string>}
      */
     public function migrate(Context $context): array
@@ -124,7 +124,7 @@ class TmmsMigrationService
                 }
                 ++$skipped;
                 $errors[] = sprintf('%s: %s', $candidate['productNumber'], $exception->getMessage());
-                $this->logger->error('RcCustomFields TMMS-Migration: Produkt uebersprungen.', [
+                $this->logger->error('RcCustomFields TMMS-Migration: Produkt übersprungen.', [
                     'productId' => $candidate['productId'],
                     'productNumber' => $candidate['productNumber'],
                     'exception' => $exception::class,
@@ -142,7 +142,7 @@ class TmmsMigrationService
 
     /**
      * Setzt `rc_custom_fields_enabled` auf false und entfernt den Migrations-Marker
-     * fuer alle in dieser Migration markierten Produkte.
+     * für alle in dieser Migration markierten Produkte.
      * @return array{rolledBack: int}
      */
     public function rollback(Context $context): array
@@ -282,7 +282,7 @@ class TmmsMigrationService
             return;
         }
 
-        // Marker fuer Rollback-Faehigkeit
+        // Marker für Rollback-Fähigkeit
         $rcKeys[self::RC_MIGRATED_MARKER] = (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format(\DateTimeInterface::ATOM);
 
         $merged = array_merge($customFields, $rcKeys);

@@ -18,16 +18,16 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
  *
  * Die Client-Validierung (JS `_validateRequiredFields`) ist trivial umgehbar (JS deaktiviert, direkter
  * POST auf `frontend.checkout.line-item.add`) — ohne Server-Check landen leere Pflichtfelder bis in die
- * Bestellung. Dieser Validator prueft je Produkt-Line-Item die aktiven Pflichtfelder gegen die Eingabe und
+ * Bestellung. Dieser Validator prüft je Produkt-Line-Item die aktiven Pflichtfelder gegen die Eingabe und
  * blockiert Warenkorb/Checkout mit einem Fehler pro leerem Pflichtfeld.
  *
  * Datenquelle ist ausschliesslich das Line-Item-Payload — der Core legt die Produkt-Custom-Fields dort unter
  * `customFields` ab (ProductCartProcessor), die Kundeneingabe steht als `rcCustomField{i}Value` daneben. Damit
- * ist keine zusaetzliche DB-Abfrage im Cart-Recalculate-Pfad noetig.
+ * ist keine zusätzliche DB-Abfrage im Cart-Recalculate-Pfad nötig.
  *
  * Opt-in: nur aktiv, wenn der Merchant `requireAllFieldsBeforeCart` einschaltet (default false → kein
- * Verhaltenswechsel fuer bestehende Shops). Bewusst nur Pflicht-Praesenz, kein Typ/Min/Max — Format-/Locale-
- * Ambiguitaet wuerde False-Positive-Checkout-Blocks riskieren.
+ * Verhaltenswechsel für bestehende Shops). Bewusst nur Pflicht-Präsenz, kein Typ/Min/Max — Format-/Locale-
+ * Ambiguität würde False-Positive-Checkout-Blocks riskieren.
  */
 final class RequiredCustomFieldCartValidator implements CartValidatorInterface
 {

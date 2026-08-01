@@ -15,7 +15,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
  * Unit-Tests für das erweiterte TMMS→RcCustomFields-Schema-Mapping.
  *
  * `dryRun()`, `migrate()` und `rollback()` lassen sich nur mit DAL-Vollintegration
- * sinnvoll testen — die werden im Integration-Test-Pfad geprueft. Hier sind die
+ * sinnvoll testen — die werden im Integration-Test-Pfad geprüft. Hier sind die
  * Konvertierungs-Funktionen via Reflection isoliert, weil sie die kritische
  * Mapping-Logik tragen (CSV → Options-Format, Min/Max-Cast, Type-Map).
  */
@@ -30,7 +30,7 @@ final class TmmsMigrationServiceTest extends TestCase
         self::assertSame('text', $this->invokeMapType($service, 'text'));
         self::assertSame('select', $this->invokeMapType($service, 'select'));
         self::assertSame('number', $this->invokeMapType($service, 'number'));
-        self::assertSame([], $logger->records, 'Bekannte TMMS-Fieldtypes duerfen kein Warning ausloesen.');
+        self::assertSame([], $logger->records, 'Bekannte TMMS-Fieldtypes duerfen kein Warning auslösen.');
     }
 
     public function testMapTypeWarnsOnUnknownType(): void
@@ -101,8 +101,8 @@ final class TmmsMigrationServiceTest extends TestCase
             $serviceWithLogger = $this->makeService($logger);
             $result = $this->invokeMapType($serviceWithLogger, $tmmsType);
 
-            self::assertNotEmpty($result, sprintf('TYPE_MAP-Eintrag fehlt fuer "%s"', $tmmsType));
-            self::assertSame([], $logger->records, sprintf('TYPE_MAP-Eintrag "%s" darf kein Warning ausloesen', $tmmsType));
+            self::assertNotEmpty($result, sprintf('TYPE_MAP-Eintrag fehlt für "%s"', $tmmsType));
+            self::assertSame([], $logger->records, sprintf('TYPE_MAP-Eintrag "%s" darf kein Warning auslösen', $tmmsType));
         }
 
         // mit Service muss man auch gar nichts machen, das ist nur ein wertvoller Sanity-Check.

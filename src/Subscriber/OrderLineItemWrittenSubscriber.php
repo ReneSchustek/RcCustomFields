@@ -11,12 +11,12 @@ use Shopware\Core\Checkout\Cart\Order\CartConvertedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Haengt RcCustomFields-Payload-Werte vor der Order-Persistierung
- * in `order_line_item.custom_fields` ein — damit sind die Werte spaeter
- * in Order-Detail, E-Mail-Templates und Dokumenten verfuegbar.
+ * Hängt RcCustomFields-Payload-Werte vor der Order-Persistierung
+ * in `order_line_item.custom_fields` ein — damit sind die Werte später
+ * in Order-Detail, E-Mail-Templates und Dokumenten verfügbar.
  *
  * Greift in `CartConvertedEvent::getConvertedCart()` ein, BEVOR die Order
- * in die DB geschrieben wird. Das ist der Shopware-Standard-Hook fuer
+ * in die DB geschrieben wird. Das ist der Shopware-Standard-Hook für
  * Cart→Order-Transformation und vermeidet einen zweiten DB-Write.
  */
 class OrderLineItemWrittenSubscriber implements EventSubscriberInterface
@@ -67,7 +67,7 @@ class OrderLineItemWrittenSubscriber implements EventSubscriberInterface
 
         if ($patched > 0) {
             $event->setConvertedCart($convertedCart);
-            $this->logger->info('RcCustomFields: order_line_item.custom_fields fuer ' . $patched . ' Position(en) gesetzt.', [
+            $this->logger->info('RcCustomFields: order_line_item.custom_fields für ' . $patched . ' Position(en) gesetzt.', [
                 'context' => 'ruhrcoder_custom_fields.order_converter',
                 'patched' => $patched,
             ]);

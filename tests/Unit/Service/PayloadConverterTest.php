@@ -11,7 +11,7 @@ final class PayloadConverterTest extends TestCase
 {
     public function testExtractReturnsEmptyWhenNoFieldValuesPresent(): void
     {
-        // Leere Extraktion haengt an fehlenden Feldwerten, nicht am Marker.
+        // Leere Extraktion hängt an fehlenden Feldwerten, nicht am Marker.
         $converter = new PayloadConverter();
 
         self::assertSame([], $converter->extractFromPayload([]));

@@ -7,13 +7,13 @@ namespace Ruhrcoder\RcCustomFields\Cart\Error;
 use Shopware\Core\Checkout\Cart\Error\Error;
 
 /**
- * Blockierender Warenkorb-Fehler: Ein aktives Pflicht-Custom-Field wurde nicht ausgefuellt.
+ * Blockierender Warenkorb-Fehler: Ein aktives Pflicht-Custom-Field wurde nicht ausgefüllt.
  *
  * Wird vom {@see \Ruhrcoder\RcCustomFields\Cart\RequiredCustomFieldCartValidator} erzeugt, wenn der
- * globale Schalter `requireAllFieldsBeforeCart` aktiv ist. Faengt genau die Faelle ab, die die
+ * globale Schalter `requireAllFieldsBeforeCart` aktiv ist. Fängt genau die Fälle ab, die die
  * Client-Validierung (JS) umgeht (deaktiviertes JS, direkter POST auf die Add-to-Cart-Route).
  *
- * Storefront-Anzeige: Der Core rendert Level-Error-Fehler ueber den Snippet-Key
+ * Storefront-Anzeige: Der Core rendert Level-Error-Fehler über den Snippet-Key
  * `error.<messageKey>` mit Parameter `%name%` (= Feld-Label).
  */
 final class RequiredCustomFieldError extends Error
@@ -26,14 +26,14 @@ final class RequiredCustomFieldError extends Error
         private readonly string $fieldLabel,
         private readonly string $productName,
     ) {
-        $this->message = sprintf('Pflichtfeld "%s" fuer "%s" wurde nicht ausgefuellt.', $fieldLabel, $productName);
+        $this->message = sprintf('Pflichtfeld "%s" für "%s" wurde nicht ausgefüllt.', $fieldLabel, $productName);
 
         parent::__construct($this->message);
     }
 
     public function getId(): string
     {
-        // Muss je (Line-Item, Feld) eindeutig sein, sonst ueberschreiben sich mehrere fehlende
+        // Muss je (Line-Item, Feld) eindeutig sein, sonst überschreiben sich mehrere fehlende
         // Felder in der ErrorCollection (die nach getId() keyed).
         return sprintf('%s-%s-%d', self::KEY_PREFIX, $this->lineItemId, $this->fieldIndex);
     }

@@ -41,7 +41,7 @@ class RequiredCustomFieldCartValidatorTest extends TestCase
                 'rc_custom_field_1_required' => true,
                 'rc_custom_field_1_label' => 'Gravur',
             ],
-            input: ['rcCustomField1Value' => '   '], // nur Whitespace zaehlt als leer
+            input: ['rcCustomField1Value' => '   '], // nur Whitespace zählt als leer
         ));
 
         $errors = new ErrorCollection();
@@ -114,7 +114,7 @@ class RequiredCustomFieldCartValidatorTest extends TestCase
     public function testDisabledEnforcementFlagShortCircuits(): void
     {
         $this->enforce(false);
-        // getBool wird geprueft, die Line-Item-Schleife darf gar nicht erst laufen.
+        // getBool wird geprüft, die Line-Item-Schleife darf gar nicht erst laufen.
         $cart = $this->cartWith($this->productLineItem(
             customFields: [
                 'rc_custom_fields_enabled' => true,
@@ -136,7 +136,7 @@ class RequiredCustomFieldCartValidatorTest extends TestCase
         $this->enforce(true);
         $cart = $this->cartWith($this->productLineItem(
             customFields: [
-                'rc_custom_fields_enabled' => false, // Set global aus -> keine Pruefung
+                'rc_custom_fields_enabled' => false, // Set global aus -> keine Prüfung
                 'rc_custom_field_1_active' => true,
                 'rc_custom_field_1_required' => true,
                 'rc_custom_field_1_label' => 'Gravur',

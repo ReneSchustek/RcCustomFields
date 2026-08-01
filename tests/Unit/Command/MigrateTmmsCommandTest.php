@@ -25,7 +25,7 @@ final class MigrateTmmsCommandTest extends TestCase
 
         $output = $tester->getDisplay();
         self::assertStringContainsString('SW-001', $output);
-        self::assertStringContainsString('1 Produkt(e) wuerden migriert', $output);
+        self::assertStringContainsString('1 Produkt(e) würden migriert', $output);
         self::assertSame(0, $tester->getStatusCode());
     }
 
@@ -51,7 +51,7 @@ final class MigrateTmmsCommandTest extends TestCase
         $exitCode = $tester->execute([]);
 
         self::assertSame(0, $exitCode);
-        self::assertStringContainsString('2 Produkt(e) migriert, 0 uebersprungen', $tester->getDisplay());
+        self::assertStringContainsString('2 Produkt(e) migriert, 0 übersprungen', $tester->getDisplay());
     }
 
     public function testMigrationReportsErrorsAndReturnsFailure(): void
@@ -81,7 +81,7 @@ final class MigrateTmmsCommandTest extends TestCase
         $tester->setInputs(['yes']);
         $tester->execute(['--rollback' => true]);
 
-        self::assertStringContainsString('3 Produkt(e) zurueckgesetzt', $tester->getDisplay());
+        self::assertStringContainsString('3 Produkt(e) zurückgesetzt', $tester->getDisplay());
     }
 
     public function testRollbackAbortedOnNo(): void

@@ -14,8 +14,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * ist trivial umgehbar).
  *
  * Bewusst KEIN `strip_tags`: die Ausgabe ist an allen Stellen bereits escaped
- * (`|e('html')` bzw. Auto-Escape) — `strip_tags` wuerde dagegen legitime Sonderzeichen
- * zerstoeren (ein Gravurtext „Laenge < 10mm" wuerde ab dem `<` abgeschnitten).
+ * (`|e('html')` bzw. Auto-Escape) — `strip_tags` würde dagegen legitime Sonderzeichen
+ * zerstören (ein Gravurtext „Länge < 10mm" würde ab dem `<` abgeschnitten).
  */
 final class PayloadSanitizerSubscriber implements EventSubscriberInterface
 {

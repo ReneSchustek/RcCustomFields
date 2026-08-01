@@ -45,12 +45,12 @@ final class PayloadSanitizerSubscriberTest extends TestCase
 
     public function testPreservesSpecialCharactersAndTags(): void
     {
-        // Bewusst KEIN strip_tags: legitime Sonderzeichen/`<` muessen erhalten bleiben
+        // Bewusst KEIN strip_tags: legitime Sonderzeichen/`<` müssen erhalten bleiben
         // (XSS wird am Output escaped). Ein Gravurtext darf nicht datenzerstoert werden.
         $event = $this->buildAddToCartEventWith([
             'product-1' => [
                 'payload' => [
-                    'rcCustomField1Value' => 'Laenge < 10mm & > 5mm',
+                    'rcCustomField1Value' => 'Länge < 10mm & > 5mm',
                     'rcCustomField2Value' => '<b>bold</b> "quotes"',
                 ],
             ],
@@ -59,7 +59,7 @@ final class PayloadSanitizerSubscriberTest extends TestCase
         $this->subscriber->sanitizePayload($event);
 
         $lineItems = $event->getRequest()->request->all('lineItems');
-        self::assertSame('Laenge < 10mm & > 5mm', $lineItems['product-1']['payload']['rcCustomField1Value']);
+        self::assertSame('Länge < 10mm & > 5mm', $lineItems['product-1']['payload']['rcCustomField1Value']);
         self::assertSame('<b>bold</b> "quotes"', $lineItems['product-1']['payload']['rcCustomField2Value']);
     }
 

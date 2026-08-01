@@ -4,7 +4,7 @@
       "title": "Kundeneingaben",
       "intro": "Konfiguriere bis zu 10 Eingabefelder pro Produkt. Unterschiedliche Eingaben erzeugen separate Warenkorbpositionen.",
       "enabled": {
-        "label": "Kundeneingaben fuer dieses Produkt aktivieren",
+        "label": "Kundeneingaben für dieses Produkt aktivieren",
         "helpText": "Wenn aktiviert: Felder werden auf der Produktdetailseite gerendert."
       },
       "field": {

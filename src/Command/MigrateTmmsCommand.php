@@ -16,7 +16,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 #[AsCommand(
     name: 'rc:migrate-tmms',
-    description: 'Migriert TMMS-Produkt-Custom-Fields in das RcCustomFields-Schema (idempotent, transactional, rollback-faehig).',
+    description: 'Migriert TMMS-Produkt-Custom-Fields in das RcCustomFields-Schema (idempotent, transactional, rollback-fähig).',
 )]
 class MigrateTmmsCommand extends Command
 {
@@ -30,7 +30,7 @@ class MigrateTmmsCommand extends Command
     {
         $this
             ->addOption('dry-run', null, InputOption::VALUE_NONE, 'Listet nur die Kandidaten ohne DB-Schreibung.')
-            ->addOption('rollback', null, InputOption::VALUE_NONE, 'Setzt rc_custom_fields_enabled auf false fuer alle in dieser Migration markierten Produkte.');
+            ->addOption('rollback', null, InputOption::VALUE_NONE, 'Setzt rc_custom_fields_enabled auf false für alle in dieser Migration markierten Produkte.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,7 +65,7 @@ class MigrateTmmsCommand extends Command
             return Command::SUCCESS;
         }
 
-        $output->writeln(sprintf('<comment>%d Produkt(e) wuerden migriert (Dry-Run):</comment>', \count($candidates)));
+        $output->writeln(sprintf('<comment>%d Produkt(e) würden migriert (Dry-Run):</comment>', \count($candidates)));
         foreach ($candidates as $c) {
             $output->writeln(sprintf('  - %s (%s): %d TMMS-Feld(er)', $c['productNumber'], $c['productId'], $c['fieldCount']));
         }
@@ -81,7 +81,7 @@ class MigrateTmmsCommand extends Command
         $result = $this->migrationService->migrate($context);
 
         $output->writeln(sprintf(
-            '<info>TMMS-Migration abgeschlossen: %d Produkt(e) migriert, %d uebersprungen.</info>',
+            '<info>TMMS-Migration abgeschlossen: %d Produkt(e) migriert, %d übersprungen.</info>',
             $result['processed'],
             $result['skipped'],
         ));
@@ -101,7 +101,7 @@ class MigrateTmmsCommand extends Command
         /** @var QuestionHelper $helper */
         $helper = $this->getHelper('question');
         $question = new ConfirmationQuestion(
-            'Rollback setzt rc_custom_fields_enabled fuer alle migrierten Produkte auf false. Fortfahren? [y/N] ',
+            'Rollback setzt rc_custom_fields_enabled für alle migrierten Produkte auf false. Fortfahren? [y/N] ',
             false,
         );
 
@@ -112,7 +112,7 @@ class MigrateTmmsCommand extends Command
         }
 
         $result = $this->migrationService->rollback($context);
-        $output->writeln(sprintf('<info>Rollback abgeschlossen: %d Produkt(e) zurueckgesetzt.</info>', $result['rolledBack']));
+        $output->writeln(sprintf('<info>Rollback abgeschlossen: %d Produkt(e) zurückgesetzt.</info>', $result['rolledBack']));
 
         return Command::SUCCESS;
     }

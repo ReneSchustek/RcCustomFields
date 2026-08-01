@@ -8,11 +8,11 @@
     {{ parent() }}
 
     {# Dieses Template rendert in ZWEI Kontexten:
-       - Live-Warenkorb / Offcanvas / Checkout-Bestaetigung: die Eingaben liegen im flachen Cart-Payload
-         (`rcCustomField{i}Value`); `lineItem.customFields` traegt noch keinen Snapshot.
-       - Konto -> Bestelldetail (Bestellhistorie): der OrderLineItem traegt den persistierten
+       - Live-Warenkorb / Offcanvas / Checkout-Bestätigung: die Eingaben liegen im flachen Cart-Payload
+         (`rcCustomField{i}Value`); `lineItem.customFields` trägt noch keinen Snapshot.
+       - Konto -> Bestelldetail (Bestellhistorie): der OrderLineItem trägt den persistierten
          `rc_custom_fields`-Snapshot in `lineItem.customFields`.
-       Frueher las dieser Block AUSSCHLIESSLICH den Payload-Pfad -> Alt-TMMS-Bestellungen (Daten nur in
+       Früher las dieser Block AUSSCHLIESSLICH den Payload-Pfad -> Alt-TMMS-Bestellungen (Daten nur in
        customFields, ohne `rcCustomFieldsActive`) erschienen im PDF (Reader-Pfad), aber NICHT im Bestelldetail.
        Deshalb jetzt Reader-first (deckt Order-Kontext inkl. Alt-TMMS ab, exakt wie documents/base.html.twig),
        Payload nur noch als Live-Cart-Fallback. #}

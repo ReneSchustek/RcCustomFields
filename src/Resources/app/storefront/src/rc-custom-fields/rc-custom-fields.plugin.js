@@ -192,7 +192,7 @@ export default class RcCustomFieldsPlugin extends PluginBaseClass {
      * Schlüssel = data-field-key des Inputs (f1, f2, ...).
      *
      * Typ-spezifische Lesepfade:
-     *   - checkbox: '1' wenn angekreuzt, '' wenn nicht — `input.value` waere immer '1' und nutzlos
+     *   - checkbox: '1' wenn angekreuzt, '' wenn nicht — `input.value` wäre immer '1' und nutzlos
      *   - sonst: getrimmter String-Wert, HTML-Tags entfernt (Defense-in-Depth)
      */
     _collectValues() {
@@ -221,7 +221,7 @@ export default class RcCustomFieldsPlugin extends PluginBaseClass {
      * Format: UUID v4-ähnlich (kompatibel mit Shopware-Internals)
      */
     _computeLineItemId(productId, fieldValues) {
-        // Sortierte Werte + alle rc*Suffix-Attribute fuer Determinismus
+        // Sortierte Werte + alle rc*Suffix-Attribute für Determinismus
         const sortedKeys = Object.keys(fieldValues).sort();
         const fieldsStr  = sortedKeys.map(k => `${k}=${fieldValues[k]}`).join('\x00');
         const allSuffixes = this._collectAllSuffixes();

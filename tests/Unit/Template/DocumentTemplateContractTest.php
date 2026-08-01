@@ -9,15 +9,15 @@ use PHPUnit\Framework\TestCase;
 /**
  * Pinning-Tests gegen das Dokument-Template.
  *
- * Warum es diese Tests gibt: Das Template ueberschrieb bis 1.4.5 den Block
+ * Warum es diese Tests gibt: Das Template überschrieb bis 1.4.5 den Block
  * `document_line_items_table_row_label` -- einen Block, den Shopware NICHT kennt
  * (Tippfehler, Mehrzahl statt Einzahl). Twig ignoriert einen Override auf einen
  * unbekannten Block stillschweigend. Es gab keinen Fehler, keine Warnung, keinen
  * Testausfall -- und die Kundeneingaben erschienen auf KEINEM Dokument: nicht auf
  * der Rechnung, nicht auf dem Lieferschein, nicht auf dem Storno.
  *
- * PHPStan Level 8, PHP CS Fixer, alle Unit-Tests und die CI waren dabei gruen.
- * Kein statisches Werkzeug prueft, ob ein Twig-Block je gerendert wird.
+ * PHPStan Level 8, PHP CS Fixer, alle Unit-Tests und die CI waren dabei grün.
+ * Kein statisches Werkzeug prüft, ob ein Twig-Block je gerendert wird.
  *
  * Diese Tests nageln den Vertrag fest: der Blockname wird gegen die echten
  * Shopware-Quellen geprüft.
@@ -41,7 +41,7 @@ final class DocumentTemplateContractTest extends TestCase
         self::assertStringContainsString(
             "{% sw_extends '@Framework/documents/base.html.twig' %}",
             $this->inhalt,
-            'Die Dokument-Basis ist der einzige Ansatzpunkt, der fuer alle Dokumenttypen '
+            'Die Dokument-Basis ist der einzige Ansatzpunkt, der für alle Dokumenttypen '
             . '(Rechnung, Lieferschein, Storno, Gutschrift) gleichzeitig wirkt.',
         );
     }
@@ -52,7 +52,7 @@ final class DocumentTemplateContractTest extends TestCase
             '{% block document_line_item_table_column_label %}',
             $this->inhalt,
             'Der Column-Block liegt INNERHALB des <td>. Der Row-Block IST das <td> -- '
-            . 'ein Anhang nach parent() laege dort ausserhalb der Tabellenzelle.',
+            . 'ein Anhang nach parent() läge dort ausserhalb der Tabellenzelle.',
         );
 
         self::assertStringNotContainsString(
@@ -64,15 +64,15 @@ final class DocumentTemplateContractTest extends TestCase
 
     public function testDerFruehereePhantomBlockIstVerschwunden(): void
     {
-        // Geprueft wird die BLOCK-DEKLARATION, nicht die blosse Zeichenkette: Der alte
-        // Name steht bewusst im Erklaer-Kommentar des Templates, damit niemand ihn aus
-        // Versehen wieder einbaut. Eine naive Suche nach dem Namen wuerde genau daran
+        // Geprüft wird die BLOCK-DEKLARATION, nicht die blosse Zeichenkette: Der alte
+        // Name steht bewusst im Erklär-Kommentar des Templates, damit niemand ihn aus
+        // Versehen wieder einbaut. Eine naive Suche nach dem Namen würde genau daran
         // scheitern -- der erste Entwurf dieses Tests tat das auch.
         self::assertStringNotContainsString(
             '{% block document_line_items_table_row_label %}',
             $this->inhalt,
             'Mehrzahl `line_items` -- diesen Block gibt es in Shopware nicht. '
-            . 'Er war die Ursache dafuer, dass Kundeneingaben nie auf Dokumenten erschienen.',
+            . 'Er war die Ursache dafür, dass Kundeneingaben nie auf Dokumenten erschienen.',
         );
     }
 
@@ -81,7 +81,7 @@ final class DocumentTemplateContractTest extends TestCase
         self::assertStringContainsString(
             '{{ parent() }}',
             $this->inhalt,
-            'Ohne parent() wuerde der Positionsname aus dem Core verschwinden und nur noch '
+            'Ohne parent() würde der Positionsname aus dem Core verschwinden und nur noch '
             . 'die Kundeneingabe in der Zelle stehen.',
         );
     }
