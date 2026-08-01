@@ -21,7 +21,7 @@ final class PayloadConverterTest extends TestCase
     public function testExtractCollectsValuesWithoutActiveMarker(): void
     {
         // Eingaben tragen eigene name-Attribute und kommen auch ohne gesetzten Marker an (z. B. ohne
-        // JavaScript). Massgeblich ist der Wert, nicht `rcCustomFieldsActive`.
+        // JavaScript). Maßgeblich ist der Wert, nicht `rcCustomFieldsActive`.
         $converter = new PayloadConverter();
 
         $entries = $converter->extractFromPayload([
