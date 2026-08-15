@@ -101,12 +101,12 @@ final class PayloadSanitizerSubscriberTest extends TestCase
         self::assertNull($lineItems['product-1']['payload']['rcCustomField3Value']);
     }
 
-    public function testSkipsForeignRoutes(): void
+    public function testSkipsRoutesOutsideCheckout(): void
     {
         $request = new Request();
-        $request->attributes->set('_route', 'frontend.checkout.confirm');
+        $request->attributes->set('_route', 'frontend.account.login');
         $request->request->set('lineItems', [
-            'product-1' => ['payload' => ['rcCustomField1Value' => '<script>x</script>']],
+            'product-1' => ['payload' => ['rcCustomField1Value' => str_repeat('a', 1500)]],
         ]);
 
         $event = new RequestEvent(
@@ -118,7 +118,54 @@ final class PayloadSanitizerSubscriberTest extends TestCase
         $this->subscriber->sanitizePayload($event);
 
         $lineItems = $request->request->all('lineItems');
-        self::assertSame('<script>x</script>', $lineItems['product-1']['payload']['rcCustomField1Value']);
+        self::assertSame(1500, mb_strlen($lineItems['product-1']['payload']['rcCustomField1Value']));
+    }
+
+    /**
+     * Die Store-API nimmt dieselben Positionen unter `items` entgegen. Wird nur
+     * `lineItems` gelesen, umgeht jede entkoppelte Oberfläche die Kappung.
+     */
+    public function testCapsOverlongValuesFromStoreApi(): void
+    {
+        $request = new Request();
+        $request->attributes->set('_route', 'store-api.checkout.cart.add-line-item');
+        $request->request->set('items', [
+            'product-1' => ['payload' => ['rcCustomField1Value' => str_repeat('a', 1500)]],
+        ]);
+
+        $event = new RequestEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+        );
+
+        $this->subscriber->sanitizePayload($event);
+
+        $items = $request->request->all('items');
+        self::assertSame(1000, mb_strlen($items['product-1']['payload']['rcCustomField1Value']));
+    }
+
+    public function testCapsBothParameterNamesInOneRequest(): void
+    {
+        $request = new Request();
+        $request->attributes->set('_route', 'store-api.checkout.cart.add-line-item');
+        $request->request->set('lineItems', [
+            'a' => ['payload' => ['rcCustomField1Value' => str_repeat('a', 1500)]],
+        ]);
+        $request->request->set('items', [
+            'b' => ['payload' => ['rcCustomField1Value' => str_repeat('b', 1500)]],
+        ]);
+
+        $event = new RequestEvent(
+            $this->createMock(HttpKernelInterface::class),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+        );
+
+        $this->subscriber->sanitizePayload($event);
+
+        self::assertSame(1000, mb_strlen($request->request->all('lineItems')['a']['payload']['rcCustomField1Value']));
+        self::assertSame(1000, mb_strlen($request->request->all('items')['b']['payload']['rcCustomField1Value']));
     }
 
     public function testNoopOnEmptyLineItems(): void
