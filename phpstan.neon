@@ -1,3 +1,6 @@
+includes:
+    - vendor/shopwarelabs/phpstan-shopware/rules.neon
+
 parameters:
     level: 8
     paths:
@@ -7,4 +10,25 @@ parameters:
         - vendor
     bootstrapFiles:
         - vendor/autoload.php
-    ignoreErrors: []
+
+    # Jede Ausnahme steht hier einzeln, mit Pfad und Begründung — keine erzeugte Baseline. Eine
+    # Baseline sammelt ein, was gerade da ist, und niemand liest sie je wieder. Diese Liste soll
+    # gelesen werden: Wächst sie, ist das ein Anlass hinzusehen.
+    ignoreErrors:
+        # Der Aufruf steht im **Kopf** der Schleife und läuft genau einmal — es gibt keine Abfrage
+        # je Durchlauf. Die Regel prüft die syntaktische Verschachtelung, nicht den Ablauf.
+        -
+            message: '#EntityRepository method calls are not allowed within loops#'
+            path: src/Service/CustomFieldInstaller.php
+
+        # Ein Konsolenbefehl hat keinen Nutzerkontext, aus dem sich einer ableiten ließe. Genau
+        # dafür gibt es den Standardkontext.
+        -
+            message: '#Do not use Shopware\\Core\\Framework\\Context::createDefaultContext#'
+            path: src/Command/MigrateTmmsCommand.php
+
+        # Dasselbe im Test: Dort ist der Standardkontext der richtige, und ein aufgebauter
+        # Nutzerkontext würde nur eine Abhängigkeit vortäuschen, die der Test nicht hat.
+        -
+            message: '#Do not use Shopware\\Core\\Framework\\Context::createDefaultContext#'
+            path: tests/*

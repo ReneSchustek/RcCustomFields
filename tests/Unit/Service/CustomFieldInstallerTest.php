@@ -220,7 +220,7 @@ final class CustomFieldInstallerTest extends TestCase
         $existingSet = $this->makeSetEntity('set-id-existing', null);
 
         $setSearchResult = $this->createMock(EntitySearchResult::class);
-        $setSearchResult->method('first')->willReturn($existingSet);
+        $setSearchResult->method('getEntities')->willReturn(new CustomFieldSetCollection([$existingSet]));
 
         $this->setRepository = $this->createMock(EntityRepository::class);
         $this->setRepository->method('search')->willReturn($setSearchResult);
@@ -242,7 +242,7 @@ final class CustomFieldInstallerTest extends TestCase
         $existingSet = $this->makeSetEntity('set-id-existing', 'relation-id-product');
 
         $setSearchResult = $this->createMock(EntitySearchResult::class);
-        $setSearchResult->method('first')->willReturn($existingSet);
+        $setSearchResult->method('getEntities')->willReturn(new CustomFieldSetCollection([$existingSet]));
 
         $this->setRepository = $this->createMock(EntityRepository::class);
         $this->setRepository->method('search')->willReturn($setSearchResult);
@@ -294,7 +294,7 @@ final class CustomFieldInstallerTest extends TestCase
         $existingSet = $this->makeSetEntity('set-id-123', null);
 
         $searchResult = $this->createMock(EntitySearchResult::class);
-        $searchResult->method('first')->willReturn($existingSet);
+        $searchResult->method('getEntities')->willReturn(new CustomFieldSetCollection([$existingSet]));
 
         $this->setRepository = $this->createMock(EntityRepository::class);
         $this->setRepository->method('search')->willReturn($searchResult);
@@ -315,7 +315,7 @@ final class CustomFieldInstallerTest extends TestCase
         $existingSet = $this->makeSetEntity('set-id-123', null);
 
         $searchResult = $this->createMock(EntitySearchResult::class);
-        $searchResult->method('first')->willReturn($existingSet);
+        $searchResult->method('getEntities')->willReturn(new CustomFieldSetCollection([$existingSet]));
 
         $this->setRepository = $this->createMock(EntityRepository::class);
         $this->setRepository->method('search')->willReturn($searchResult);

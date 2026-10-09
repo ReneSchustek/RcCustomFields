@@ -46,7 +46,7 @@ final class PayloadSanitizerSubscriberTest extends TestCase
     public function testPreservesSpecialCharactersAndTags(): void
     {
         // Bewusst KEIN strip_tags: legitime Sonderzeichen/`<` müssen erhalten bleiben
-        // (XSS wird am Output escaped). Ein Gravurtext darf nicht datenzerstoert werden.
+        // (XSS wird am Output escaped). Ein Gravurtext darf dabei nicht zerstört werden.
         $event = $this->buildAddToCartEventWith([
             'product-1' => [
                 'payload' => [

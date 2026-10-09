@@ -54,31 +54,54 @@ final class RequiredCustomFieldCartValidator implements CartValidatorInterface
                 continue;
             }
 
-            $payload = $lineItem->getPayload();
-
-            for ($i = 1; $i <= RcCustomFields::FIELD_COUNT; ++$i) {
-                if (empty($customFields['rc_custom_field_' . $i . '_active'])) {
-                    continue;
-                }
-                if (empty($customFields['rc_custom_field_' . $i . '_required'])) {
-                    continue;
-                }
-
-                $value = $payload['rcCustomField' . $i . 'Value'] ?? null;
-                if (is_string($value) && trim($value) !== '') {
-                    continue;
-                }
-
-                $label = $customFields['rc_custom_field_' . $i . '_label'] ?? null;
-                $label = is_string($label) && $label !== '' ? $label : ('#' . $i);
-
-                $errors->add(new RequiredCustomFieldError(
-                    $lineItem->getId(),
-                    $i,
-                    $label,
-                    (string) ($lineItem->getLabel() ?? ''),
-                ));
-            }
+            $this->validateLineItem($lineItem, $customFields, $errors);
         }
+    }
+
+    /**
+     * Prüft die Pflichtfelder einer einzelnen Position.
+     *
+     * Eigene Methode seit dem 2026-08-19: Zusammen mit dem Durchlaufen des Warenkorbs lag die
+     * Verzweigungszahl bei 16, die Regel zieht die Grenze bei 15.
+     *
+     * @param array<string, mixed> $customFields
+     */
+    private function validateLineItem(LineItem $lineItem, array $customFields, ErrorCollection $errors): void
+    {
+        $payload = $lineItem->getPayload();
+
+        for ($i = 1; $i <= RcCustomFields::FIELD_COUNT; ++$i) {
+            if (!$this->isRequired($customFields, $i)) {
+                continue;
+            }
+
+            $value = $payload['rcCustomField' . $i . 'Value'] ?? null;
+            if (is_string($value) && trim($value) !== '') {
+                continue;
+            }
+
+            $label = $customFields['rc_custom_field_' . $i . '_label'] ?? null;
+            $label = is_string($label) && $label !== '' ? $label : ('#' . $i);
+
+            $errors->add(new RequiredCustomFieldError(
+                $lineItem->getId(),
+                $i,
+                $label,
+                (string) ($lineItem->getLabel() ?? ''),
+            ));
+        }
+    }
+
+    /**
+     * Ein Feld ist nur dann Pflicht, wenn es **beides** ist: eingeschaltet und als Pflicht
+     * gekennzeichnet. Ein abgeschaltetes Feld mit Pflichtkennzeichen darf keine Bestellung
+     * aufhalten — es steht gar nicht im Formular.
+     *
+     * @param array<string, mixed> $customFields
+     */
+    private function isRequired(array $customFields, int $index): bool
+    {
+        return !empty($customFields['rc_custom_field_' . $index . '_active'])
+            && !empty($customFields['rc_custom_field_' . $index . '_required']);
     }
 }

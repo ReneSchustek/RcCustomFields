@@ -26,38 +26,38 @@ final class DocumentTemplateContractTest extends TestCase
 {
     private const TEMPLATE = __DIR__ . '/../../../src/Resources/views/documents/base.html.twig';
 
-    private string $inhalt;
+    private string $content;
 
     protected function setUp(): void
     {
-        $inhalt = file_get_contents(self::TEMPLATE);
-        self::assertIsString($inhalt, 'Dokument-Template nicht lesbar: ' . self::TEMPLATE);
+        $content = file_get_contents(self::TEMPLATE);
+        self::assertIsString($content, 'Dokument-Template nicht lesbar: ' . self::TEMPLATE);
 
-        $this->inhalt = $inhalt;
+        $this->content = $content;
     }
 
-    public function testErweitertDieDokumentenBasis(): void
+    public function testExtendsTheDocumentBase(): void
     {
         self::assertStringContainsString(
             "{% sw_extends '@Framework/documents/base.html.twig' %}",
-            $this->inhalt,
+            $this->content,
             'Die Dokument-Basis ist der einzige Ansatzpunkt, der für alle Dokumenttypen '
             . '(Rechnung, Lieferschein, Storno, Gutschrift) gleichzeitig wirkt.',
         );
     }
 
-    public function testUeberschreibtDenColumnBlockNichtDenRowBlock(): void
+    public function testOverridesTheColumnBlockNotTheRowBlock(): void
     {
         self::assertStringContainsString(
             '{% block document_line_item_table_column_label %}',
-            $this->inhalt,
+            $this->content,
             'Der Column-Block liegt INNERHALB des <td>. Der Row-Block IST das <td> -- '
             . 'ein Anhang nach parent() läge dort ausserhalb der Tabellenzelle.',
         );
 
         self::assertStringNotContainsString(
             '{% block document_line_item_table_row_label %}',
-            $this->inhalt,
+            $this->content,
             'Der Row-Block ist der falsche Ansatzpunkt (siehe oben).',
         );
     }
@@ -70,7 +70,7 @@ final class DocumentTemplateContractTest extends TestCase
         // scheitern -- der erste Entwurf dieses Tests tat das auch.
         self::assertStringNotContainsString(
             '{% block document_line_items_table_row_label %}',
-            $this->inhalt,
+            $this->content,
             'Mehrzahl `line_items` -- diesen Block gibt es in Shopware nicht. '
             . 'Er war die Ursache dafür, dass Kundeneingaben nie auf Dokumenten erschienen.',
         );
@@ -80,19 +80,19 @@ final class DocumentTemplateContractTest extends TestCase
     {
         self::assertStringContainsString(
             '{{ parent() }}',
-            $this->inhalt,
+            $this->content,
             'Ohne parent() würde der Positionsname aus dem Core verschwinden und nur noch '
             . 'die Kundeneingabe in der Zelle stehen.',
         );
     }
 
-    public function testGibtLabelUndWertDerEingabenAus(): void
+    public function testOutputsLabelAndValueOfTheInputs(): void
     {
         // Seit RC11 liest das Template defensiv beide Schemas über den Helper
         // rc_cf_entries(...) statt direkt auf rc_custom_fields zuzugreifen — so
         // rendern auch Bestandsbestellungen mit flachem TMMS-Snapshot.
-        self::assertStringContainsString('rc_cf_entries(lineItem.customFields)', $this->inhalt);
-        self::assertStringContainsString('entry.label', $this->inhalt);
-        self::assertStringContainsString('entry.value', $this->inhalt);
+        self::assertStringContainsString('rc_cf_entries(lineItem.customFields)', $this->content);
+        self::assertStringContainsString('entry.label', $this->content);
+        self::assertStringContainsString('entry.value', $this->content);
     }
 }

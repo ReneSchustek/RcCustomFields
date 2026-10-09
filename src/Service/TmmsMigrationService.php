@@ -197,9 +197,6 @@ class TmmsMigrationService
         while (($result = $iterator->fetch()) !== null) {
             foreach ($result->getEntities() as $product) {
                 $customFields = $product->getCustomFields() ?? [];
-                if (!\is_array($customFields)) {
-                    continue;
-                }
 
                 $fieldCount = $this->countTmmsFields($customFields);
                 if ($fieldCount === 0) {

@@ -15,7 +15,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetCollection;
 use Shopware\Core\System\CustomField\Aggregate\CustomFieldSet\CustomFieldSetEntity;
 use Shopware\Core\System\CustomField\CustomFieldCollection;
-use Shopware\Core\System\CustomField\CustomFieldEntity;
 use Shopware\Core\System\CustomField\CustomFieldTypes;
 
 final class CustomFieldInstaller
@@ -59,8 +58,8 @@ final class CustomFieldInstaller
             'name' => self::SET_NAME,
             'config' => [
                 'label' => [
-                    'de-DE' => 'RC Custom Fields — Kundeneingaben',
-                    'en-GB' => 'RC Custom Fields — Customer Inputs',
+                    'de-DE' => 'Kundeneingaben',
+                    'en-GB' => 'Custom Fields',
                 ],
             ],
             'customFields' => $fields,
@@ -96,7 +95,7 @@ final class CustomFieldInstaller
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', self::SET_NAME));
-        $set = $this->customFieldSetRepository->search($criteria, $context)->first();
+        $set = $this->customFieldSetRepository->search($criteria, $context)->getEntities()->first();
 
         if (!$set instanceof CustomFieldSetEntity) {
             $this->logger->info('RcCustomFields: CustomFieldSet bereits abwesend, Uninstall ist No-op.', [
@@ -150,9 +149,6 @@ final class CustomFieldInstaller
         $toDelete = [];
         $drift = [];
         foreach ($this->customFieldRepository->search($criteria, $context)->getEntities() as $entity) {
-            if (!$entity instanceof CustomFieldEntity) {
-                continue;
-            }
             $name = $entity->getName();
             $currentType = $entity->getType();
             $expectedType = $expectedTypeByName[$name] ?? null;
@@ -211,7 +207,11 @@ final class CustomFieldInstaller
     }
 
     /**
-     * @param array<int, string> $names
+     * Die Namen kommen aus `array_values()` und sind damit eine lückenlose Liste. `list<string>`
+     * sagt das aus; `array<int, string>` ließe auch negative Schlüssel zu — und genau die nimmt
+     * der Filter nicht an.
+     *
+     * @param list<string> $names
      *
      * @return array<string, string>
      */
@@ -222,13 +222,9 @@ final class CustomFieldInstaller
 
         $map = [];
         foreach ($this->customFieldRepository->search($criteria, $context)->getEntities() as $entity) {
-            if (!$entity instanceof CustomFieldEntity) {
-                continue;
-            }
-            $name = $entity->getName();
-            if (is_string($name) && $name !== '') {
-                $map[$name] = $entity->getId();
-            }
+            // Der Name ist laut Typangabe ein nicht-leerer Text; eine Prüfung darauf kann nicht
+            // fehlschlagen.
+            $map[$entity->getName()] = $entity->getId();
         }
 
         return $map;
@@ -240,7 +236,7 @@ final class CustomFieldInstaller
         $criteria->addFilter(new EqualsFilter('name', $name));
         $criteria->addAssociation('relations');
 
-        $set = $this->customFieldSetRepository->search($criteria, $context)->first();
+        $set = $this->customFieldSetRepository->search($criteria, $context)->getEntities()->first();
 
         return $set instanceof CustomFieldSetEntity ? $set : null;
     }
@@ -286,8 +282,8 @@ final class CustomFieldInstaller
                 'type' => CustomFieldTypes::BOOL,
                 'config' => [
                     'label' => [
-                        'de-DE' => 'RC Custom Fields aktivieren',
-                        'en-GB' => 'Enable RC Custom Fields',
+                        'de-DE' => 'Kundeneingaben aktivieren',
+                        'en-GB' => 'Enable custom fields',
                     ],
                     'helpText' => [
                         'de-DE' => 'Kundeneingaben für dieses Produkt aktivieren. Unterschiedliche Eingaben erzeugen separate Warenkorbpositionen.',

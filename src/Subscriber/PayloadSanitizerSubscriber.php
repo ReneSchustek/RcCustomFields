@@ -24,6 +24,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * Kappung, die jede entkoppelte Oberfläche umgeht — und über die Schnittstelle landen
  * dann unbegrenzte Zeichenketten in `order_line_item.payload`. Derselbe Fehler steckte
  * in RcColorPicker und war dort schwerer, weil der Wert in einem Stilattribut landet.
+ *
+ * Warum `kernel.request` und nicht das Zeilen-Ereignis
+ * ---------------------------------------------------
+ * Gekappt wird die **Nutzlast der Anfrage**, bevor Shopware sie liest. Das Zeilen-Ereignis
+ * `frontend.checkout.line-item.add.request` feuert erst danach — eine Kappung dort käme zu spät,
+ * und der Schutz vor überlangen Eingaben wäre unbemerkt weg. Der Preis für den früheren Einstieg
+ * ist gering: Bei einer anderen Route steigt der Listener nach einem Feldvergleich wieder aus.
  */
 final class PayloadSanitizerSubscriber implements EventSubscriberInterface
 {

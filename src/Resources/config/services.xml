@@ -4,7 +4,7 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldInstaller" public="true">
+        <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldInstaller">
             <argument type="service" id="custom_field_set.repository"/>
             <argument type="service" id="custom_field.repository"/>
             <argument type="service" id="logger" on-invalid="null"/>
@@ -12,8 +12,11 @@
 
         <service id="Ruhrcoder\RcCustomFields\Service\PayloadConverter"/>
 
-        <!-- Defensiver Dual-Schema-Reader (rc_custom_fields + TMMS-Snapshot). Public für Unit-Tests. -->
-        <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldsReader" public="true"/>
+        <!-- Defensiver Dual-Schema-Reader (rc_custom_fields + TMMS-Snapshot). Stand bis zum
+             2026-08-19 auf public, begründet mit „für Unit-Tests" — die fassen den Container
+             aber gar nicht an, und Integrationstests hat diese Erweiterung keine. Die Begründung
+             trug also nicht einmal sich selbst. -->
+        <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldsReader"/>
 
         <!-- Twig-Helper für Mail/Dokument/Storefront, delegiert auf den Reader. -->
         <service id="Ruhrcoder\RcCustomFields\Twig\CustomFieldsTwigExtension">

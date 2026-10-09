@@ -1,5 +1,51 @@
 # Changelog (DE)
 
+## [1.5.7] - 2026-10-09 — Die Zusatzfelder heißen wie die Erweiterung
+
+### Geändert
+
+- Unter „Zusatzfelder“ am Artikel stand „RC Custom Fields — Kundeneingaben“, der Schalter hieß „RC Custom Fields aktivieren“, die Einstellungskarte „RC Custom Fields – Einstellungen“. Alle drei tragen jetzt den Namen, der unter Erweiterungen steht: „Kundeneingaben“.
+
+## [1.5.6] - 2026-08-19 — Der Reiter am Produkt lässt sich endlich bedienen
+
+### Behoben
+
+- **Kein einziger Schalter im Reiter „Kundeneingaben" wurde angezeigt.** Betroffen waren der
+  Hauptschalter und je Feld die Schalter „aktiv" und „Pflichtfeld" — damit ließen sich die
+  Kundeneingaben für ein Produkt gar nicht erst einschalten. Die Maske benutzte ein Bauteil, das
+  Shopware seit 6.7 nicht mehr kennt; unbekannte Bauteile bleiben still leer, ohne Meldung.
+- **Jede Texteingabe ging beim Speichern verloren.** Beschriftung, Platzhalter, Einheit, Minimum,
+  Maximum und die Auswahlliste der Werte reichten beim Tippen das Ereignis statt des Textes
+  weiter. Der Server verwarf es stillschweigend: kein Fehler, keine Meldung, und beim nächsten
+  Aufruf stand wieder der alte Wert da. Auch die Auswahl des Feldtyps kam nie an.
+- Ein Vertragstest prüft ab jetzt beides — er wird rot, sobald eine Vorlage ein entferntes Bauteil
+  benutzt oder ein Feld auf das Ereignis statt auf den Wert hört.
+
+## [1.5.5] - 2026-08-17 — Der Reiter am Produkt erscheint wieder
+
+### Behoben
+
+- **Die Kappung der Kundeneingaben griff nur auf einem von zwei Wegen.** Der Riegel prüfte
+  ausschließlich die Route der Storefront und den Parameter `lineItems`. Die Store-API nimmt
+  dieselben Positionen unter `items` und über eigene Routen entgegen — über diesen Weg lief keine
+  Kappung, und Kundeneingaben landeten in beliebiger Länge in der Bestellung. Geprüft werden jetzt
+  beide Routenpräfixe und beide Parameternamen. **Es ging dabei nicht um Schadcode:** Die Ausgabe
+  ist in Warenkorb, Beleg und Backoffice an allen Stellen maskiert. Offen waren unbegrenzte
+  Datenmengen in der Bestelltabelle — Speicherwachstum und übergroße Zeilen.
+- **Am Produkt fehlte der Reiter für die Kundeneingaben.** Damit ließ sich für keinen Artikel
+  einrichten, was der Kunde eingeben soll. Ursache waren die fehlenden gebauten Dateien des
+  Backoffice-Teils: Ohne sie kündigt Shopware das Bündel nicht an und lädt es nie — ohne
+  Fehlermeldung. Es sah nicht nach einem Fehler aus, sondern nach „diesen Reiter gibt es hier
+  nicht". Wer den Verwaltungsbereich nach der Installation neu baut, hat ihn nie vermisst.
+
+## [1.5.4] - 2026-08-10 — Backoffice-Übersetzungen und Vorbereitung auf 6.8
+
+### Geändert
+
+- **Die Übersetzungen im Backoffice werden wieder angemeldet.** Der bisherige Weg existiert in Shopware 6.7 nicht mehr; der Aufruf brach beim Laden der Administration ab, und alles danach wurde nicht mehr ausgeführt.
+- **Die Produktseite lädt wieder.** Die gebauten Storefront-Dateien des Plugins fehlten; ohne sie brach die Seite mit einem Serverfehler ab.
+- **Vorbereitung auf die nächste Shopware-Hauptversion.** Der Zugriff auf Suchergebnisse folgt der Schreibweise, die Shopware 6.8 verlangt. Am Verhalten ändert sich nichts.
+
 ## [1.5.3] - 2026-07-20 — Server-Pflichtvalidierung + Bestelldetail-Anzeige
 
 > **Deployment:** `php bin/console plugin:update RcCustomFields && php bin/console cache:clear`. Kein Schema-Break, keine Migration.
