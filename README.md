@@ -1,14 +1,14 @@
-﻿# RcCustomFields
+# RcCustomFields
 
-Shopware 6 Plugin — fügt pro Produkt konfigurierbare Kundeneingabefelder hinzu.
+Ein Shopware-6-Plugin, das pro Produkt konfigurierbare Eingabefelder für den Kunden hinzufügt.
 
 ---
 
 ## Was das Plugin macht
 
-Einige Produkte erfordern Zusatzangaben vom Kunden — z. B. Gravurtext, individuelle Maße oder Materialeigenschaften. Shopware bietet dafür keine generische Lösung: entweder Varianten (aufwändig bei vielen Kombinationen) oder individuelle Texte (zu eingeschränkt).
+Manche Produkte brauchen Zusatzangaben vom Kunden, etwa einen Gravurtext, individuelle Maße oder Materialeigenschaften. Shopware hat dafür keine allgemeine Lösung. Es bleiben Varianten, die bei vielen Kombinationen aufwändig werden, oder individuelle Texte, die zu eingeschränkt sind.
 
-Dieses Plugin installiert ein Custom-Field-Set `rc_custom_fields` für Produkte. Pro Produkt lassen sich bis zu mehrere Eingabefelder aktivieren und konfigurieren. Jedes Feld hat einen Typ (Text, Zahl, mehrzeiliger Text), eine Bezeichnung, einen Platzhalter, eine Einheit sowie optional Min/Max-Validierung.
+Das Plugin installiert dafür ein Custom-Field-Set `rc_custom_fields` für Produkte. Pro Produkt lassen sich mehrere Eingabefelder aktivieren und konfigurieren. Jedes Feld bekommt einen Typ (Text, Zahl, mehrzeiliger Text), eine Bezeichnung, einen Platzhalter und eine Einheit, auf Wunsch auch eine Prüfung auf Min/Max.
 
 ---
 
@@ -31,13 +31,13 @@ php bin/console cache:clear
 
 ## Konfiguration
 
-Die Felder werden direkt am Produkt konfiguriert. Im Admin unter **Produkte → [Produkt] → Individuelle Felder → RC Custom Fields — Kundeneingaben**.
+Konfiguriert wird direkt am Produkt, im Admin unter **Produkte → [Produkt] → Zusatzfelder → Kundeneingaben**.
 
 ### Globale Einstellung pro Produkt
 
 | Feld | Beschreibung |
 |------|-------------|
-| RC Custom Fields aktivieren | Schaltet das gesamte Feature für dieses Produkt an |
+| Kundeneingaben aktivieren | Schaltet das gesamte Feature für dieses Produkt an |
 
 ### Einstellungen pro Eingabefeld (Feld 1–N)
 
@@ -74,5 +74,3 @@ composer quality   # cs-check + phpstan + test
 ---
 
 Entwickelt von [Ruhrcoder](https://ruhrcoder.de)
-
-<!-- TRIAGE-WORKFLOW: auto-managed by triage-deploy.ps1 -->
