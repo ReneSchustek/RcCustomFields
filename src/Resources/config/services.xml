@@ -12,10 +12,9 @@
 
         <service id="Ruhrcoder\RcCustomFields\Service\PayloadConverter"/>
 
-        <!-- Defensiver Dual-Schema-Reader (rc_custom_fields + TMMS-Snapshot). Stand bis zum
-             2026-08-19 auf public, begründet mit „für Unit-Tests" — die fassen den Container
-             aber gar nicht an, und Integrationstests hat diese Erweiterung keine. Die Begründung
-             trug also nicht einmal sich selbst. -->
+        <!-- Defensiver Dual-Schema-Reader (rc_custom_fields + TMMS-Snapshot). Bleibt privat: Die
+             Unit-Tests bauen ihn direkt, und Integrationstests, die ihn aus dem Container holen
+             müssten, hat diese Erweiterung keine. -->
         <service id="Ruhrcoder\RcCustomFields\Service\CustomFieldsReader"/>
 
         <!-- Twig-Helper für Mail/Dokument/Storefront, delegiert auf den Reader. -->

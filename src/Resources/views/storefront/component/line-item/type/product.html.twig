@@ -12,10 +12,10 @@
          (`rcCustomField{i}Value`); `lineItem.customFields` trägt noch keinen Snapshot.
        - Konto -> Bestelldetail (Bestellhistorie): der OrderLineItem trägt den persistierten
          `rc_custom_fields`-Snapshot in `lineItem.customFields`.
-       Früher las dieser Block AUSSCHLIESSLICH den Payload-Pfad -> Alt-TMMS-Bestellungen (Daten nur in
-       customFields, ohne `rcCustomFieldsActive`) erschienen im PDF (Reader-Pfad), aber NICHT im Bestelldetail.
-       Deshalb jetzt Reader-first (deckt Order-Kontext inkl. Alt-TMMS ab, exakt wie documents/base.html.twig),
-       Payload nur noch als Live-Cart-Fallback. #}
+       Läse dieser Block nur den Payload-Pfad, erschienen Alt-TMMS-Bestellungen (Daten nur in
+       customFields, ohne `rcCustomFieldsActive`) im PDF (Reader-Pfad), aber NICHT im Bestelldetail.
+       Deshalb Reader-first (deckt Order-Kontext inkl. Alt-TMMS ab, exakt wie documents/base.html.twig),
+       Payload nur als Live-Cart-Fallback. #}
     {% set rcCfEntries = rc_cf_entries(lineItem.customFields) %}
 
     {% if config('RcCustomFields.config.showInOrderHistory') and rcCfEntries is not empty %}

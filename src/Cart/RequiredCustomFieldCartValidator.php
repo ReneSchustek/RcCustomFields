@@ -61,8 +61,8 @@ final class RequiredCustomFieldCartValidator implements CartValidatorInterface
     /**
      * Prüft die Pflichtfelder einer einzelnen Position.
      *
-     * Eigene Methode seit dem 2026-08-19: Zusammen mit dem Durchlaufen des Warenkorbs lag die
-     * Verzweigungszahl bei 16, die Regel zieht die Grenze bei 15.
+     * Eigene Methode, weil die Verzweigungszahl zusammen mit dem Durchlaufen des Warenkorbs bei
+     * 16 läge; die Regel zieht die Grenze bei 15.
      *
      * @param array<string, mixed> $customFields
      */

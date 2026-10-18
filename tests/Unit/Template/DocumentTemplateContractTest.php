@@ -9,15 +9,15 @@ use PHPUnit\Framework\TestCase;
 /**
  * Pinning-Tests gegen das Dokument-Template.
  *
- * Warum es diese Tests gibt: Das Template überschrieb bis 1.4.5 den Block
- * `document_line_items_table_row_label` -- einen Block, den Shopware NICHT kennt
- * (Tippfehler, Mehrzahl statt Einzahl). Twig ignoriert einen Override auf einen
- * unbekannten Block stillschweigend. Es gab keinen Fehler, keine Warnung, keinen
- * Testausfall -- und die Kundeneingaben erschienen auf KEINEM Dokument: nicht auf
- * der Rechnung, nicht auf dem Lieferschein, nicht auf dem Storno.
+ * Warum es diese Tests gibt: Der naheliegende Blockname
+ * `document_line_items_table_row_label` ist einer, den Shopware NICHT kennt
+ * (Mehrzahl statt Einzahl). Twig ignoriert einen Override auf einen unbekannten
+ * Block stillschweigend. Es gibt keinen Fehler, keine Warnung, keinen Testausfall,
+ * und die Kundeneingaben erscheinen auf KEINEM Dokument: nicht auf der Rechnung,
+ * nicht auf dem Lieferschein, nicht auf dem Storno.
  *
- * PHPStan Level 8, PHP CS Fixer, alle Unit-Tests und die CI waren dabei grün.
- * Kein statisches Werkzeug prüft, ob ein Twig-Block je gerendert wird.
+ * PHPStan Level 8, PHP CS Fixer, Unit-Tests und CI bleiben dabei grün, denn kein
+ * statisches Werkzeug prüft, ob ein Twig-Block je gerendert wird.
  *
  * Diese Tests nageln den Vertrag fest: der Blockname wird gegen die echten
  * Shopware-Quellen geprüft.

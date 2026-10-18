@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * Vertragstest gegen die Vorlagen des Verwaltungsteils.
  *
- * Am 2026-08-19 war der Reiter „Kundeneingaben" sichtbar, aber nicht bedienbar — aus zwei
- * Gründen, die beide von außen wie „da ist eben nichts" aussehen:
+ * Der Reiter „Kundeneingaben" kann sichtbar, aber nicht bedienbar sein, aus zwei Gründen, die
+ * beide von außen wie „da ist eben nichts" aussehen:
  *
  * 1. `sw-field` gibt es seit Shopware 6.7 nicht mehr. Eine unbekannte Komponente bleibt als
  *    unaufgelöste Marke im Baum stehen: kein Schalter, keine Meldung, kein Eintrag in der
- *    Konsole. Betroffen waren der Hauptschalter und beide Schalter je Feldkarte.
+ *    Konsole. Betroffen wären der Hauptschalter und beide Schalter je Feldkarte.
  * 2. Die Meteor-Felder geben ihren Wert über `update:value` bzw. `update:modelValue` heraus.
  *    Wer stattdessen auf `input` oder `change` hört, bekommt das native Ereignis. Es landet
  *    unverändert im Modell und wird beim Speichern mitgeschickt — der Server verwirft es
