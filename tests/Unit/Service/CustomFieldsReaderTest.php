@@ -43,8 +43,8 @@ final class CustomFieldsReaderTest extends TestCase
 
     /**
      * Was: Nur der flache TMMS-Snapshot ist gesetzt (Bestandsbestellung).
-     * Warum: KERN von RC11 — alte Bestellungen müssen nach dem TMMS-Deinstall weiter
-     *        rendern, ohne dass TMMS installiert ist.
+     * Warum: Der Kern des Dual-Schema-Reads — alte Bestellungen müssen nach dem
+     *        TMMS-Deinstall weiter rendern, ohne dass TMMS installiert ist.
      * Erwartet: Die TMMS-Slots werden zu normalisierten Einträgen (Slot = index).
      */
     public function testReadsTmmsFlatSnapshotAsFallback(): void

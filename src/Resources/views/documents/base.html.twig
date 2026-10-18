@@ -4,12 +4,12 @@
    pro Bestellposition. Wirkt für alle Dokumente (Rechnung, Lieferschein, Storno,
    Gutschrift), die `base.html.twig` erweitern.
 
-   Blockname mit Bedacht gewählt -- hier lagen zwei Fallen:
+   Blockname mit Bedacht gewählt -- hier liegen zwei Fallen:
 
    1. Einzahl `line_item`, nicht `line_items`. Der Block
       `document_line_items_table_row_label` existiert in Shopware NICHT. Twig ignoriert
       einen Override auf einen unbekannten Block stillschweigend: kein Fehler, keine
-      Warnung, kein Testausfall -- die Kundeneingaben erschienen schlicht auf keinem
+      Warnung, kein Testausfall -- die Kundeneingaben stünden schlicht auf keinem
       einzigen Dokument.
 
    2. `column` statt `row`. `document_line_item_table_row_label` IST das <td> selbst;

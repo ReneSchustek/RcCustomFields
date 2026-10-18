@@ -67,7 +67,7 @@ final class DocumentTemplateContractTest extends TestCase
         // Geprüft wird die BLOCK-DEKLARATION, nicht die blosse Zeichenkette: Der alte
         // Name steht bewusst im Erklär-Kommentar des Templates, damit niemand ihn aus
         // Versehen wieder einbaut. Eine naive Suche nach dem Namen würde genau daran
-        // scheitern -- der erste Entwurf dieses Tests tat das auch.
+        // scheitern.
         self::assertStringNotContainsString(
             '{% block document_line_items_table_row_label %}',
             $this->content,
@@ -88,7 +88,7 @@ final class DocumentTemplateContractTest extends TestCase
 
     public function testOutputsLabelAndValueOfTheInputs(): void
     {
-        // Seit RC11 liest das Template defensiv beide Schemas über den Helper
+        // Das Template liest defensiv beide Schemas über den Helper
         // rc_cf_entries(...) statt direkt auf rc_custom_fields zuzugreifen — so
         // rendern auch Bestandsbestellungen mit flachem TMMS-Snapshot.
         self::assertStringContainsString('rc_cf_entries(lineItem.customFields)', $this->content);

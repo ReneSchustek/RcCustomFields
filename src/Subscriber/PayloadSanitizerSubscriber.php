@@ -22,8 +22,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * Die Storefront postet auf `frontend.checkout.*` und schickt `lineItems`, die Store-API
  * auf `store-api.checkout.*` und schickt `items`. Wer nur den ersten Weg prüft, hat eine
  * Kappung, die jede entkoppelte Oberfläche umgeht — und über die Schnittstelle landen
- * dann unbegrenzte Zeichenketten in `order_line_item.payload`. Derselbe Fehler steckte
- * in RcColorPicker und war dort schwerer, weil der Wert in einem Stilattribut landet.
+ * dann unbegrenzte Zeichenketten in `order_line_item.payload`. In RcColorPicker wöge
+ * derselbe Fehler schwerer, weil der Wert dort in einem Stilattribut landet.
  *
  * Warum `kernel.request` und nicht das Zeilen-Ereignis
  * ---------------------------------------------------

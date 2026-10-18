@@ -10,7 +10,7 @@ namespace Ruhrcoder\RcCustomFields\Service;
  * Damit rendern alte (TMMS) und neue (RcCustomFields) Bestellungen in Mail, PDF
  * und Storefront identisch — auch nachdem TMMS deinstalliert ist.
  *
- * Verifizierte Order-Snapshot-Schemas (2026-07-15, reale Bestelldaten):
+ * Verifizierte Order-Snapshot-Schemas (an realen Bestelldaten geprüft):
  *
  *   RcCustomFields (eigenes, verschachteltes Schema):
  *     customFields['rc_custom_fields'] = [ {index:int, label:string, value:string}, … ]

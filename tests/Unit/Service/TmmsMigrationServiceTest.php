@@ -92,7 +92,7 @@ final class TmmsMigrationServiceTest extends TestCase
 
     public function testTypeMapCoversAllLiveFieldtypes(): void
     {
-        // Im Live-Bestand vorkommende Typen (Stand 2026-05-18): input, select, number.
+        // Im Bestand vorkommende TMMS-Typen: input, select, number.
         // Wenn jemand einen Wert aus dieser Liste ohne TYPE_MAP-Eintrag entfernt, scheitert der Test.
         $service = $this->makeService(new RecordingLogger());
 
