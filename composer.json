@@ -3,7 +3,7 @@
     "description": "Kundeneingaben pro Produkt – unterschiedliche Eingaben erzeugen separate Warenkorbpositionen",
     "version": "1.5.7",
     "type": "shopware-platform-plugin",
-    "license": "MIT",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Ruhrcoder",
